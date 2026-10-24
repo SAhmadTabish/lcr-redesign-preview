@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>LCR Crimson Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout concept: black broadcast canvas, brushed-silver type, one red for live/primary.
+   Diagonal slash motif from the LCR logotype cuts heroes, eyebrows and crests. */
+:root{
+  color-scheme:dark;
+  --canvas:#0B0B0C; --panel:#141416; --raised:#1D1D20; --line:#2A2A2F; --line-2:#3A3A41;
+  --fg:#E6E8EC; --muted:#9A9FA8; --faint:#6C717A;
+  --silver:linear-gradient(135deg,#F2F2F2 0%,#B9BDC4 48%,#8A9098 100%);
+  --silver-solid:#C8CCD3;
+  --red:#E10600; --red-deep:#9E0400; --red-ink:#FFFFFF;
+  --win:#E6E8EC; --loss:#6C717A;
+  --t-iron:#5D5A55; --t-bronze:#8D603A; --t-silver:#A4ABB6; --t-gold:#C89B3C; --t-plat:#3AABA0; --t-dia:#5D68D6; --t-master:#9A48FF; --t-gm:#D13639; --t-chal:#F0E6D2;
+  --display:'Anton','Oswald','Impact','Arial Narrow',sans-serif;
+  --body:'Manrope','Helvetica Neue',Arial,sans-serif;
+  --gutter-l:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto;scroll-padding-top:100vh}
+body{margin:0;background:var(--canvas);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--canvas);z-index:60}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance}
+.num,.score,td,.lp,.stat b{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- type ---------- */
+.disp{font-family:var(--display);text-transform:uppercase;line-height:.9;letter-spacing:-.01em}
+.silver-text{background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eyebrow::before{content:"";width:14px;height:10px;background:var(--red);transform:skewX(-12deg)}
+.eyebrow.sil::before{background:var(--silver)}
+.h2{display:flex;align-items:center;gap:12px;font-size:28px}
+.h2::before{content:"";width:6px;height:26px;background:var(--red);transform:skewX(-12deg)}
+.h2.sil::before{background:var(--silver)}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.link{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);position:relative;padding-bottom:2px}
+.link::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--fg);transition:width .25s}
+.link:hover{color:var(--fg)}.link:hover::after{width:100%}
+
+/* ---------- shell ---------- */
+.page{padding-left:var(--gutter-l);padding-right:var(--gutter-r);padding-block:0 48px}
+.wrap{max-width:1360px;margin:0 auto}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(11,11,12,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:22px;height:60px}
+.brand{display:flex;align-items:center;gap:12px;flex:none}
+.brand .mono{font-family:var(--display);font-size:30px;line-height:1;transform:skewX(-12deg);display:inline-block;background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em}
+.brand .wm{display:flex;flex-direction:column;line-height:1.1}
+.brand .wm b{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.brand .wm span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:600}
+nav.main{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+nav.main::-webkit-scrollbar{display:none}
+nav.main a{position:relative;display:inline-flex;align-items:center;height:60px;padding:0 12px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+nav.main a:hover{color:var(--fg)}
+nav.main a.inert{color:var(--faint);cursor:not-allowed}
+nav.main a.active{color:var(--fg)}
+nav.main a.active::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:3px;background:var(--red);transform:skewX(-12deg)}
+.top-actions{display:flex;align-items:center;gap:8px;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 18px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-2);color:var(--fg);transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
+.btn:hover{border-color:var(--fg);background:var(--raised)}
+.btn.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.btn.primary:hover{background:var(--red-deep);border-color:var(--red-deep)}
+.btn.silver{background:var(--silver);border-color:transparent;color:#0B0B0C}
+.btn.silver:hover{filter:brightness(1.08)}
+.btn.sm{height:32px;padding:0 12px;font-size:11px}
+.btn svg{width:14px;height:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border:1px solid var(--line-2);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--panel)}
+.chip.on{color:var(--fg);border-color:var(--fg)}
+.chip svg{width:12px;height:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.pill.live{background:var(--red);color:var(--red-ink);transform:skewX(-12deg)}
+.pill.live>*{transform:skewX(12deg)}
+.pill.live i{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.4s ease-in-out infinite}
+.pill.done{border:1px solid var(--line-2);color:var(--muted)}
+.pill.up{border:1px solid var(--silver-solid);color:var(--fg)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.crest{flex:none}
+.slash{display:inline-block;transform:skewX(-12deg)}
+.panel{background:var(--panel);border:1px solid var(--line)}
+section.screen{padding-block:0}
+.block{padding-block:40px;border-bottom:1px solid var(--line)}
+.block:last-of-type{border-bottom:0}
+
+/* ---------- hero ---------- */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);min-height:560px;border-bottom:1px solid var(--line);overflow:hidden}
+.hero .art{position:relative;min-height:320px}
+.hero .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 20%;clip-path:polygon(14% 0,100% 0,100% 100%,0 100%);filter:saturate(.9)}
+.hero .art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--canvas) 0%,rgba(11,11,12,.55) 22%,rgba(11,11,12,0) 60%),linear-gradient(0deg,var(--canvas) 0%,rgba(11,11,12,0) 45%)}
+.hero .art::before{content:"";position:absolute;top:0;bottom:0;left:14%;width:2px;background:var(--silver);transform:skewX(-12deg);transform-origin:bottom;z-index:2;opacity:.6}
+.hero .copy{display:flex;flex-direction:column;justify-content:center;gap:22px;padding-block:52px;padding-right:32px;position:relative;z-index:2}
+.hero .ev{display:flex;align-items:center;gap:12px}
+.hero .ev img{width:40px;height:40px;object-fit:contain;background:#fff;padding:2px}
+.hero .ev .eyebrow{color:var(--fg)}
+.hero .title{font-size:clamp(64px,10vw,150px)}
+.hero .title small{display:block;font-size:.34em;color:var(--muted);letter-spacing:.02em;margin-top:6px}
+.vsrow{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.vsrow .tm{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:34px;text-transform:uppercase;line-height:1}
+.vsrow .tm span{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--muted);display:block;margin-top:4px}
+.vsrow .sc{font-family:var(--display);font-size:64px;line-height:1;display:flex;align-items:center;gap:14px}
+.vsrow .sc em{font-style:normal;color:var(--faint);font-size:.6em}
+.hero .live-line{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:600}
+.hero .live-line b{color:var(--fg);font-weight:800}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.hero .next{position:absolute;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:18px;padding:14px 22px;background:var(--panel);border:1px solid var(--line);border-right:0;border-bottom:0}
+.hero .next .lab{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.hero .next .big{font-family:var(--display);font-size:26px;text-transform:uppercase;line-height:1}
+.hero .next .big b{background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:400}
+
+/* ---------- match rows ---------- */
+.mlist{display:flex;flex-direction:column;gap:8px}
+.mrow{display:grid;grid-template-columns:120px minmax(0,1fr) 92px minmax(0,1fr) 220px;align-items:center;gap:12px;min-height:66px;padding:10px 16px;background:var(--panel);border:1px solid var(--line);transition:border-color .15s,background .15s;position:relative}
+.mrow:hover{border-color:var(--line-2);background:var(--raised)}
+.mrow.live{border-left:3px solid var(--red)}
+.mtime{display:flex;flex-direction:column;gap:4px;font-weight:800;font-size:16px}
+.mtime .clock{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.mteam{display:flex;align-items:center;gap:10px;min-width:0;font-weight:700;font-size:14px}
+.mteam.a{justify-content:flex-end;text-align:right}
+.mteam .txt{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.mteam .txt b{font-size:16px;letter-spacing:.04em}
+.mteam .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:12px;font-weight:600}
+.mteam.win .nm{color:var(--win)}
+.mrow.done .mteam:not(.win) .nm{color:var(--loss)}
+.mrow.upcoming .mteam .nm{color:var(--fg)}
+.score{display:flex;justify-content:center;align-items:center;gap:8px;font-family:var(--display);font-size:28px;line-height:1}
+.score b{font-weight:400;color:var(--loss)}.score b.w{color:var(--win)}
+.mrow.live .score b{color:var(--fg)}
+.score i{font-style:normal;color:var(--faint);font-size:.7em}
+.vs{text-align:center;font-size:11px;letter-spacing:.2em;font-weight:800;color:var(--faint);text-transform:uppercase}
+.mmeta{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:12px;color:var(--muted);font-weight:600;text-align:right;min-width:0}
+.mmeta span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mmeta .bo{flex:none;border:1px solid var(--line-2);padding:1px 6px;font-size:10px;letter-spacing:.1em;font-weight:800}
+.spoilers .mrow.done .score b{filter:blur(7px)}
+.spoilers .mrow.done .mteam .nm{color:var(--fg)}
+
+/* ---------- home blocks ---------- */
+.today-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tcard{position:relative;padding:16px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px;transition:border-color .15s}
+.tcard:hover{border-color:var(--line-2)}
+.tcard.live{border-left:3px solid var(--red)}
+.tcard .row1{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+.tcard .teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.tcard .teams .t{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:24px;text-transform:uppercase}
+.tcard .teams .t.r{justify-content:flex-end}
+.tcard .teams .c{font-family:var(--display);font-size:30px;line-height:1;text-align:center}
+.tcard .teams .c small{font-family:var(--body);font-size:10px;letter-spacing:.2em;font-weight:800;color:var(--faint)}
+.tcard .stage{font-size:12px;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:36px;align-items:start}
+.std{width:100%;border-collapse:collapse}
+.std th{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-weight:800}
+.std td{padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600;white-space:nowrap}
+.std tr:hover td{background:var(--raised)}
+.std td.r,.std th.r{text-align:right}
+.std .rk{font-family:var(--display);font-size:18px;color:var(--muted);width:40px}
+.std .tn{display:flex;align-items:center;gap:10px;font-weight:800}
+.std .tn small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.std tr.q td:first-child{box-shadow:inset 3px 0 0 var(--silver-solid)}
+.std tr.e td{color:var(--muted)}
+.std tr.e td:first-child{box-shadow:inset 3px 0 0 var(--line-2)}
+.form{display:inline-flex;gap:3px}
+.form i{width:9px;height:9px;transform:skewX(-12deg);background:var(--line-2)}
+.form i.w{background:var(--silver-solid)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--muted);font-weight:600;margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;transform:skewX(-12deg);margin-right:6px;vertical-align:middle}
+.ev-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.ecard{position:relative;display:flex;flex-direction:column;gap:12px;padding:18px;background:var(--panel);border:1px solid var(--line);min-height:190px;overflow:hidden;transition:border-color .15s}
+.ecard:hover{border-color:var(--silver-solid)}
+.ecard img{width:64px;height:64px;object-fit:contain}
+.ecard .nm{font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1}
+.ecard .dt{font-size:12px;color:var(--muted);font-weight:600}
+.ecard .pill{align-self:flex-start;margin-top:auto}
+.news-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ncard{position:relative;aspect-ratio:4/5;max-width:100%;overflow:hidden;background:var(--panel);border:1px solid var(--line)}
+.ncard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.ncard:hover img{transform:scale(1.04)}
+.ncard::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,11,12,.95) 0%,rgba(11,11,12,.4) 50%,rgba(11,11,12,0) 100%)}
+.ncard .txt{position:absolute;left:0;right:0;bottom:0;padding:16px;z-index:2;display:flex;flex-direction:column;gap:8px}
+.ncard .kind{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+.ncard h3{font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1}
+.ncard .date{font-size:11px;color:var(--muted);font-weight:600}
+.sponsors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sp{display:flex;align-items:center;justify-content:center;min-height:96px;border:1px solid var(--line);background:var(--panel);font-family:var(--display);font-size:22px;text-transform:uppercase;color:var(--muted);letter-spacing:.02em;transition:color .15s,border-color .15s}
+.sp:hover{color:var(--fg);border-color:var(--line-2)}
+.sp.disc{background:var(--silver);color:#0B0B0C;border:0;gap:12px;font-family:var(--body);font-size:13px;font-weight:800;letter-spacing:.14em}
+.sp.disc svg{width:22px;height:22px}
+footer.ft{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;padding-block:28px 0;color:var(--muted);font-size:12px;font-weight:600}
+footer.ft .links{display:flex;gap:18px;flex-wrap:wrap}
+footer.ft a:hover{color:var(--fg)}
+
+/* ---------- schedule hub ---------- */
+.hub{display:grid;grid-template-columns:240px minmax(0,1fr) 300px;gap:14px;padding-block:18px 0;align-items:start}
+.rail{background:var(--panel);border:1px solid var(--line)}
+.rail h4{padding:14px 16px 8px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.evl{display:flex;flex-direction:column}
+.evl a{display:flex;gap:10px;align-items:center;padding:10px 16px;border-left:3px solid transparent;color:var(--muted)}
+.evl a img{width:30px;height:30px;object-fit:contain;flex:none}
+.evl a b{display:block;font-size:13px;color:var(--fg);font-weight:800;line-height:1.2}
+.evl a small{font-size:11px;font-weight:600}
+.evl a.on{border-left-color:var(--red);background:var(--raised)}
+.evl a:hover{background:var(--raised)}
+.evl a .pill{margin-left:auto;flex:none}
+.evl a>span:not(.pill){min-width:0}
+.hubbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 16px;background:var(--panel);border:1px solid var(--line);margin-bottom:10px}
+.hubbar .disp{font-size:28px}
+.hubbar .ctrls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.day{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:5;display:flex;align-items:baseline;gap:10px;padding:10px 4px;background:var(--canvas);font-family:var(--display);font-size:20px;text-transform:uppercase}
+.day small{font-family:var(--body);font-size:12px;letter-spacing:.1em;color:var(--muted);font-weight:700;text-transform:uppercase}
+.daygroup{margin-bottom:14px}
+.pr{display:flex;flex-direction:column}
+.pr a{display:grid;grid-template-columns:28px 32px minmax(0,1fr) auto;align-items:center;gap:10px;padding:9px 16px;border-top:1px solid var(--line);font-weight:700}
+.pr a:hover{background:var(--raised)}
+.pr .rk{font-family:var(--display);font-size:18px;color:var(--muted)}
+.pr .rec{font-size:12px;color:var(--muted);font-weight:700}
+.nl a{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.nl a:hover{background:var(--raised)}
+.nl img{width:56px;height:56px;object-fit:cover}
+.nl b{display:block;font-size:13px;font-weight:800;line-height:1.3}
+.nl small{font-size:11px;color:var(--muted);font-weight:600}
+
+/* ---------- event hub ---------- */
+.ehero{position:relative;min-height:300px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--line)}
+.ehero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+.ehero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,12,.96) 0%,rgba(11,11,12,.75) 45%,rgba(11,11,12,.2) 100%),linear-gradient(0deg,var(--canvas) 0%,rgba(11,11,12,0) 60%)}
+.ehero .in{position:relative;z-index:2;display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap;padding-block:48px 28px;width:100%}
+.ehero .logo{width:120px;height:120px;background:#fff;padding:6px;flex:none;clip-path:polygon(12% 0,100% 0,88% 100%,0 100%)}
+.ehero .logo img{width:100%;height:100%;object-fit:contain}
+.ehero .meta{display:flex;flex-direction:column;gap:12px;min-width:0;flex:1}
+.ehero .meta .title{font-size:clamp(40px,6vw,76px)}
+.ehero .meta .sub{font-size:14px;color:var(--muted);font-weight:600}
+.facts{display:flex;gap:0;flex-wrap:wrap}
+.facts div{padding:8px 18px 8px 0;margin-right:18px;border-right:1px solid var(--line-2)}
+.facts div:last-child{border-right:0}
+.facts small{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.facts b{font-size:14px;font-weight:800}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{position:relative;height:50px;padding:0 18px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tabs button:hover{color:var(--fg)}
+.tabs button[aria-selected="true"]{color:var(--fg)}
+.tabs button[aria-selected="true"]::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:3px;background:var(--red);transform:skewX(-12deg)}
+.tabpanel{padding-block:28px}
+.tscroll{overflow-x:auto}
+.tscroll .std{min-width:720px}
+.bracket{overflow-x:auto;padding-bottom:8px}
+.bgrid{display:grid;grid-template-columns:repeat(3,230px) 240px;grid-template-rows:auto auto;gap:18px 28px;min-width:980px}
+.round{display:flex;flex-direction:column;gap:10px}
+.round h5{margin:0;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:6px 10px;background:var(--panel);border:1px solid var(--line)}
+.round .ms{display:flex;flex-direction:column;justify-content:space-around;gap:12px;flex:1}
+.bm{background:var(--panel);border:1px solid var(--line);position:relative}
+.bm.live{border-color:var(--red)}
+.bm .tr{display:grid;grid-template-columns:24px minmax(0,1fr) 28px;align-items:center;gap:10px;height:40px;padding:0 10px;border-top:1px solid var(--line);font-weight:700;color:var(--muted)}
+.bm .tr:first-child{border-top:0}
+.bm .tr.win{color:var(--fg);box-shadow:inset 3px 0 0 var(--red)}
+.bm .tr.tbd{color:var(--faint)}
+.bm .tr .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm .tr .s{font-family:var(--display);font-size:18px;text-align:right}
+.bm .lv{position:absolute;top:-10px;right:8px}
+.final{grid-row:1/3;display:flex;flex-direction:column;gap:10px}
+.final .trophy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;flex:1;background:var(--panel);border:1px solid var(--line);padding:26px 16px;text-align:center}
+.final .trophy .big{font-family:var(--display);font-size:34px;text-transform:uppercase;line-height:.95}
+.final .trophy svg{width:36px;height:36px;color:var(--silver-solid)}
+.final .trophy small{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.ov-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:28px}
+.ov{padding:16px;background:var(--panel);border:1px solid var(--line)}
+.ov small{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+.ov b{font-family:var(--display);font-size:28px;text-transform:uppercase;line-height:1;font-weight:400}
+.ov b.silver-text{display:inline-block}
+.teams-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tmc{display:flex;align-items:center;gap:14px;padding:16px;background:var(--panel);border:1px solid var(--line);transition:border-color .15s}
+.tmc:hover{border-color:var(--line-2)}
+.tmc b{display:block;font-size:14px;font-weight:800}
+.tmc small{font-size:11px;color:var(--muted);font-weight:600}
+.tmc .rec{margin-left:auto;font-family:var(--display);font-size:20px;color:var(--muted)}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rule{padding:20px;background:var(--panel);border:1px solid var(--line)}
+.rule h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:10px}
+.rule p{margin:0 0 8px;color:var(--muted);font-weight:500;max-width:60ch}
+.rule p b{color:var(--fg)}
+
+/* ---------- team ---------- */
+.thead{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-block:40px 28px;border-bottom:1px solid var(--line)}
+.thead .meta{display:flex;flex-direction:column;gap:10px;flex:1;min-width:240px}
+.thead .title{font-size:clamp(44px,7vw,96px)}
+.thead .sub{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.tstats{display:flex;gap:0;margin-left:auto}
+.stat{padding:0 22px;border-left:1px solid var(--line-2)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat small{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.stat b{font-family:var(--display);font-size:40px;line-height:1;font-weight:400}
+.roster{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.pc{position:relative;aspect-ratio:3/4.2;max-width:100%;overflow:hidden;background:var(--panel);border:1px solid var(--line)}
+.pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%;filter:saturate(.85);transition:transform .5s}
+.pc:hover img{transform:scale(1.05)}
+.pc::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,11,12,.97) 0%,rgba(11,11,12,.55) 45%,rgba(11,11,12,.05) 100%)}
+.pc .role{position:absolute;top:0;left:0;z-index:2;padding:6px 12px;background:var(--silver);color:#0B0B0C;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,88% 100%,0 100%);padding-right:20px}
+.pc .cap{position:absolute;top:10px;right:10px;z-index:2}
+.pc .cap span{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;transform:skewX(-12deg)}
+.pc .txt{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px;display:flex;flex-direction:column;gap:4px}
+.pc .ign{font-family:var(--display);font-size:30px;text-transform:uppercase;line-height:1}
+.pc .rn{font-size:11px;color:var(--muted);font-weight:600}
+.pc .sig{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.14);font-size:11px;font-weight:700;color:var(--muted)}
+.pc .sig b{color:var(--fg);font-weight:800}
+.res{display:flex;flex-direction:column}
+.res a{display:grid;grid-template-columns:28px 60px 32px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line);font-weight:700}
+.res a:first-child{border-top:0}
+.res a:hover{background:var(--raised)}
+.res .wl{font-family:var(--display);font-size:18px;text-align:center;transform:skewX(-12deg);display:inline-block}
+.res .wl.W{color:var(--fg);background:var(--raised)}
+.res .wl.L{color:var(--loss)}
+.res .sc{font-family:var(--display);font-size:20px}
+.res small{color:var(--muted);font-weight:600;font-size:12px}
+
+/* ---------- leaderboard ---------- */
+.lb-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:40px 20px}
+.lb-head .title{font-size:clamp(44px,7vw,96px)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-bottom:16px}
+.filters .sep{width:1px;height:22px;background:var(--line-2);margin:0 6px}
+.search{display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border:1px solid var(--line-2);background:var(--panel);color:var(--muted);min-width:220px}
+.search svg{width:14px;height:14px}
+.search input{background:none;border:0;color:var(--fg);font:inherit;outline:none;width:100%}
+.lb{width:100%;border-collapse:collapse}
+.lb th{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-weight:800;white-space:nowrap}
+.lb td{padding:12px;border-bottom:1px solid var(--line);font-weight:600;white-space:nowrap;vertical-align:middle}
+.lb tr:hover td{background:var(--raised)}
+.lb .r{text-align:right}
+.lb .rank{font-family:var(--display);font-size:22px;color:var(--muted);width:56px}
+.medal{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;transform:skewX(-12deg);font-family:var(--display);font-size:18px;color:#0B0B0C;background:var(--silver)}
+.medal span{transform:skewX(12deg)}
+.medal.m2{background:linear-gradient(135deg,#D8DBE0,#9EA3AB,#6F747C)}
+.medal.m3{background:linear-gradient(135deg,#B9BDC4,#7D838B,#555A61)}
+.lb .pl{display:flex;align-items:center;gap:10px}
+.lb .pl b{font-size:15px;font-weight:800}
+.lb .pl small{display:block;font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.08em}
+.tier{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border:1px solid currentColor;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.tier i{width:8px;height:8px;background:currentColor;transform:skewX(-12deg)}
+.lp{font-family:var(--display);font-size:20px}
+.wr{display:flex;align-items:center;gap:10px;min-width:120px}
+.wr .bar{flex:1;height:4px;background:var(--line);position:relative}
+.wr .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--silver)}
+.wr b{width:36px;text-align:right}
+.champs{display:inline-flex}
+.champ{width:30px;height:30px;border-radius:50%;background-size:cover;background-position:50% 25%;border:2px solid var(--canvas);margin-left:-8px;box-shadow:0 0 0 1px var(--line-2)}
+.champ:first-child{margin-left:0}
+.delta{font-weight:800;font-size:12px}
+.delta.up{color:var(--fg)}.delta.dn{color:var(--muted)}.delta.eq{color:var(--faint)}
+
+/* ---------- misc ---------- */
+.tag-chip{position:fixed;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:70;padding:6px 10px;background:var(--panel);border:1px solid var(--line-2);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.85}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  .ev-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .roster{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .teams-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hub{grid-template-columns:220px minmax(0,1fr)}
+  .hub .rail.right{grid-column:1/-1}
+}
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:0}
+  .hero .art{order:-1;min-height:260px}
+  .hero .art img{clip-path:polygon(0 0,100% 0,100% 100%,0 86%)}
+  .hero .art::before{display:none}
+  .hero .art::after{background:linear-gradient(0deg,var(--canvas) 0%,rgba(11,11,12,.2) 60%)}
+  .hero .copy{padding-block:8px 110px;padding-right:0}
+  .hero .next{left:0;right:auto;border-left:0;border-right:1px solid var(--line)}
+  .two{grid-template-columns:1fr}
+  .today-grid{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sponsors{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ov-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rules{grid-template-columns:1fr}
+  .hub{grid-template-columns:1fr}
+  .mrow{grid-template-columns:84px minmax(0,1fr) 70px minmax(0,1fr);grid-template-rows:auto auto;row-gap:4px}
+  .mmeta{grid-column:1/-1;justify-content:flex-start;text-align:left;font-size:11px}
+  .tstats{margin-left:0}
+  .stat b{font-size:32px}
+}
+@media (max-width:600px){
+  .ev-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .roster{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .teams-grid{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:1fr}
+  .vsrow .tm{font-size:26px}
+  .vsrow .sc{font-size:48px}
+  .mrow{padding:10px 12px;grid-template-columns:64px minmax(0,1fr) 56px minmax(0,1fr)}
+  .mteam .nm{display:none}
+  .score{font-size:22px}
+  .brand .wm{display:none}
+  .top-actions .btn:not(.primary){display:none}
+  .hero .title{font-size:clamp(56px,18vw,96px)}
+  .hero .next{position:static;border:1px solid var(--line);margin-top:20px;justify-content:space-between}
+  .hero .copy{padding-bottom:0}
+}
+</style>
+
+<header class="top">
+  <div class="wrap" style="padding-left:var(--gutter-l);padding-right:var(--gutter-r)">
+    <a class="brand" href="#home" data-screen="home" aria-label="League Championship home">
+      <span class="mono" aria-hidden="true">LC</span>
+      <span class="wm"><b>League Championship</b><span>Esports Events</span></span>
+    </a>
+    <nav class="main" id="nav" aria-label="Primary"></nav>
+    <div class="top-actions">
+      <a class="btn sm" href="#" aria-label="Log in">Log in</a>
+      <a class="btn sm primary" href="#">Sign up</a>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+  <div class="wrap">
+    <section class="screen" id="home" aria-label="Home"></section>
+    <section class="screen" id="schedule" aria-label="Schedule" hidden></section>
+    <section class="screen" id="event" aria-label="Event" hidden></section>
+    <section class="screen" id="team" aria-label="Team" hidden></section>
+    <section class="screen" id="leaderboard" aria-label="Leaderboard" hidden></section>
+    <footer class="ft" id="footer"></footer>
+  </div>
+</div>
+<div class="tag-chip" aria-hidden="true">Direction C · Crimson Circuit — sample data</div>
+
+<script>
+try{history.scrollRestoration='manual'}catch(e){}
+window.addEventListener('load',function(){setTimeout(function(){window.scrollTo(0,0)},0)});
+
+// Shared fictional sample content for the LCR redesign mockups.
+// Every mockup direction inlines this object so screens stay comparable.
+// Teams, players and results are invented for design preview only.
+window.LCR = {
+  org: {
+    name: "League Championship",
+    short: "LCR",
+    domain: "leaguechampionship.org",
+    tagline: "South Asia's League of Legends circuit",
+    tz: "PKT (UTC+5)",
+    discord: "https://discord.gg/VdCbk5DXfJ",
+  },
+  nav: ["Home", "Schedule", "Events", "Teams", "Leaderboard", "Community", "Scrims", "LOL IQ"],
+  events: [
+    { id: "lcr-2026", name: "LCR 2026", full: "League Championship Rizar 2026 — South Asia", stage: "Playoffs", status: "live", dates: "24 Jul – 9 Aug", logo: "assets/lcr-2026-logo.webp", teams: 12, prize: "PKR 500,000", format: "Round Robin → Double Elim Bo3 → Bo5 Final", region: "South Asia", splash: "assets/splash-Jhin_0.jpg" },
+    { id: "lcr-oq-pak", name: "LCR Open Qualifier", full: "LCR Open Qualifier — Pakistan", stage: "Completed", status: "done", dates: "3 – 12 Jul", logo: "assets/lcr-oq-pak.webp", teams: 32, prize: "4 LCR slots", format: "Single Elim Bo1 → Bo3", region: "Pakistan", splash: "assets/splash-Yasuo_0.jpg" },
+    { id: "pclt-2026", name: "PCLT '26", full: "Pakistan Collegiate League Tour 2026", stage: "Registration open", status: "upcoming", dates: "5 Sep – 18 Oct", logo: "assets/pclt-2026.webp", teams: 16, prize: "PKR 150,000", format: "Groups → Single Elim", region: "Pakistan", splash: "assets/splash-Lux_0.jpg" },
+    { id: "enc-2026", name: "ENC Open Qualifiers", full: "ENC Pakistan Open Qualifiers 2026", stage: "Upcoming", status: "upcoming", dates: "1 – 9 Nov", logo: "assets/enc-2026.webp", teams: 24, prize: "ENC main-event slot", region: "Pakistan", format: "Double Elim Bo3", splash: "assets/splash-Kaisa_0.jpg" },
+    { id: "bidding-26", name: "Bidding '26", full: "Captains' Bidding Draft 2026", stage: "Announced", status: "upcoming", dates: "Dec", logo: "assets/bidding-26.webp", teams: 8, prize: "PKR 100,000", region: "Pakistan", format: "Draft league", splash: "assets/splash-Ezreal_0.jpg" },
+  ],
+  // tag, name, city, country, primary color for generated crests, W-L in groups
+  teams: [
+    { tag: "LNX", name: "Lahore Lynx", city: "Lahore", country: "PK", color: "#E8B04B", w: 9, l: 2, form: "WWWLW", seed: 1 },
+    { tag: "KRK", name: "Karachi Kraken", city: "Karachi", country: "PK", color: "#2FB8C6", w: 8, l: 3, form: "WLWWW", seed: 2 },
+    { tag: "DHK", name: "Dhaka Dragons", city: "Dhaka", country: "BD", color: "#E0433A", w: 8, l: 3, form: "WWLWW", seed: 3, invite: true },
+    { tag: "ISB", name: "Islamabad Ironclad", city: "Islamabad", country: "PK", color: "#8E9BA8", w: 7, l: 4, form: "LWWWL", seed: 4 },
+    { tag: "CMB", name: "Colombo Comets", city: "Colombo", country: "LK", color: "#7B5BE6", w: 6, l: 5, form: "WLWLW", seed: 5, invite: true },
+    { tag: "PSH", name: "Peshawar Phantoms", city: "Peshawar", country: "PK", color: "#5FB3F5", w: 6, l: 5, form: "LLWWW", seed: 6 },
+    { tag: "KTM", name: "Kathmandu Kites", city: "Kathmandu", country: "NP", color: "#F06D9D", w: 5, l: 6, form: "WLLWL", seed: 7, invite: true },
+    { tag: "QTA", name: "Quetta Quasars", city: "Quetta", country: "PK", color: "#58D68D", w: 4, l: 7, form: "LWLLW", seed: 8 },
+    { tag: "MLT", name: "Multan Mavericks", city: "Multan", country: "PK", color: "#F39C4A", w: 3, l: 8, form: "LLWLL", seed: 9 },
+    { tag: "FSD", name: "Faisalabad Falcons", city: "Faisalabad", country: "PK", color: "#C9A227", w: 3, l: 8, form: "LLLWL", seed: 10 },
+    { tag: "HYD", name: "Hyderabad Hydra", city: "Hyderabad", country: "PK", color: "#3DD6C1", w: 2, l: 9, form: "LLLLW", seed: 11 },
+    { tag: "SKT", name: "Sialkot Sentinels", city: "Sialkot", country: "PK", color: "#B388FF", w: 1, l: 10, form: "LLLLL", seed: 12 },
+  ],
+  // schedule grouped by day. time is local PKT. status: live | upcoming | done
+  schedule: [
+    { day: "Today", date: "Sat 8 Aug", matches: [
+      { time: "20:00", a: "LNX", b: "DHK", sa: 1, sb: 1, bo: 3, stage: "Playoffs • Upper Final", status: "live", game: 3, clock: "27:14" },
+      { time: "22:00", a: "KRK", b: "ISB", bo: 3, stage: "Playoffs • Lower Semifinal", status: "upcoming" },
+      { time: "00:00", a: "CMB", b: "PSH", bo: 3, stage: "Playoffs • Lower Round 2", status: "upcoming" },
+    ]},
+    { day: "Tomorrow", date: "Sun 9 Aug", matches: [
+      { time: "20:00", a: "TBD", b: "TBD", bo: 3, stage: "Playoffs • Lower Final", status: "upcoming" },
+      { time: "23:00", a: "TBD", b: "TBD", bo: 5, stage: "Grand Final", status: "upcoming", featured: true },
+    ]},
+    { day: "Yesterday", date: "Fri 7 Aug", matches: [
+      { time: "20:00", a: "ISB", b: "KTM", sa: 2, sb: 0, bo: 3, stage: "Playoffs • Lower Round 1", status: "done" },
+      { time: "22:00", a: "PSH", b: "QTA", sa: 2, sb: 1, bo: 3, stage: "Playoffs • Lower Round 1", status: "done" },
+      { time: "00:00", a: "KRK", b: "CMB", sa: 2, sb: 1, bo: 3, stage: "Playoffs • Upper Semifinal", status: "done" },
+    ]},
+    { day: "Fri 31 Jul", date: "", matches: [
+      { time: "20:00", a: "LNX", b: "PSH", sa: 2, sb: 0, bo: 3, stage: "Playoffs • Quarterfinal", status: "done" },
+      { time: "22:00", a: "DHK", b: "ISB", sa: 2, sb: 1, bo: 3, stage: "Playoffs • Quarterfinal", status: "done" },
+    ]},
+  ],
+  bracket: {
+    upper: [
+      { round: "Upper Quarterfinals", matches: [ ["LNX", 2, "PSH", 0], ["ISB", 1, "DHK", 2], ["KRK", 2, "KTM", 0], ["CMB", 2, "QTA", 1] ] },
+      { round: "Upper Semifinals", matches: [ ["LNX", 2, "DHK", 1], ["KRK", 2, "CMB", 1] ] },
+      { round: "Upper Final", matches: [ ["LNX", 1, "KRK", 1] ] },
+    ],
+    lower: [
+      { round: "Lower Round 1", matches: [ ["ISB", 2, "KTM", 0], ["PSH", 2, "QTA", 1] ] },
+      { round: "Lower Round 2", matches: [ ["DHK", 2, "ISB", 0], ["CMB", 0, "PSH", 0] ] },
+      { round: "Lower Final", matches: [ ["TBD", 0, "TBD", 0] ] },
+    ],
+    final: ["TBD", 0, "TBD", 0],
+  },
+  roster: {
+    team: "LNX",
+    coach: "Hamza 'Hamz' Qureshi",
+    players: [
+      { ign: "Saqlain", name: "Saqlain Ahmed", role: "Top", champ: "Aatrox", kda: "4.1", country: "PK", art: "assets/splash-Aatrox_0.jpg" },
+      { ign: "Zayn", name: "Zayn Malik Khan", role: "Jungle", champ: "Viego", kda: "5.3", country: "PK", art: "assets/splash-Viego_0.jpg" },
+      { ign: "Rafay", name: "Abdul Rafay", role: "Mid", champ: "Yone", kda: "6.0", country: "PK", art: "assets/splash-Yone_0.jpg", captain: true },
+      { ign: "Hunzala", name: "Hunzala Sheikh", role: "Bot", champ: "Jinx", kda: "7.2", country: "PK", art: "assets/splash-Jinx_0.jpg" },
+      { ign: "Mehran", name: "Mehran Baig", role: "Support", champ: "Lux", kda: "4.8", country: "PK", art: "assets/splash-Lux_0.jpg" },
+      { ign: "Tabish", name: "Tabish Raza", role: "Sub • Mid", champ: "Akali", kda: "3.9", country: "PK", art: "assets/splash-Akali_0.jpg" },
+    ],
+    results: [ ["W", "2–1", "DHK", "Upper SF"], ["W", "2–0", "PSH", "Upper QF"], ["W", "1–0", "KRK", "Groups"], ["L", "0–1", "DHK", "Groups"], ["W", "1–0", "ISB", "Groups"] ],
+  },
+  leaderboard: [
+    { rank: 1, ign: "Rafay", tag: "LNX", tier: "Challenger", lp: 1012, wr: 61, games: 318, role: "Mid", champs: ["Yone", "Ahri", "Akali"], country: "PK", delta: 0 },
+    { rank: 2, ign: "Farhan", tag: "KRK", tier: "Grandmaster", lp: 742, wr: 58, games: 402, role: "Jungle", champs: ["Viego", "Sett", "Lux"], country: "PK", delta: 2 },
+    { rank: 3, ign: "Hunzala", tag: "LNX", tier: "Grandmaster", lp: 701, wr: 57, games: 275, role: "Bot", champs: ["Jinx", "Kaisa", "Ezreal"], country: "PK", delta: -1 },
+    { rank: 4, ign: "Arnab", tag: "DHK", tier: "Grandmaster", lp: 688, wr: 56, games: 390, role: "Mid", champs: ["Akali", "Yasuo", "Yone"], country: "BD", delta: 1 },
+    { rank: 5, ign: "Saqlain", tag: "LNX", tier: "Master", lp: 512, wr: 55, games: 221, role: "Top", champs: ["Aatrox", "Sett", "Jhin"], country: "PK", delta: -2 },
+    { rank: 6, ign: "Danish", tag: "ISB", tier: "Master", lp: 490, wr: 54, games: 356, role: "Support", champs: ["Lux", "Ahri", "Kaisa"], country: "PK", delta: 0 },
+    { rank: 7, ign: "Tharindu", tag: "CMB", tier: "Master", lp: 455, wr: 53, games: 198, role: "Bot", champs: ["Ezreal", "Jinx", "Jhin"], country: "LK", delta: 3 },
+    { rank: 8, ign: "Zayn", tag: "LNX", tier: "Master", lp: 430, wr: 53, games: 287, role: "Jungle", champs: ["Viego", "Sett", "Akali"], country: "PK", delta: 0 },
+    { rank: 9, ign: "Bikash", tag: "KTM", tier: "Master", lp: 388, wr: 52, games: 210, role: "Top", champs: ["Sett", "Aatrox", "Yone"], country: "NP", delta: -1 },
+    { rank: 10, ign: "Mehran", tag: "LNX", tier: "Diamond I", lp: 76, wr: 54, games: 164, role: "Support", champs: ["Lux", "Ahri", "Jhin"], country: "PK", delta: 4 },
+  ],
+  news: [
+    { title: "LCR 2026 Grand Final set for Sunday night", date: "8 Aug 2026", kind: "Announcement", art: "assets/splash-Jhin_0.jpg" },
+    { title: "Rafay on the Yone pick that broke the Dragons", date: "7 Aug 2026", kind: "Interview", art: "assets/splash-Yone_0.jpg" },
+    { title: "PCLT '26 registration opens for 40 campuses", date: "5 Aug 2026", kind: "Collegiate", art: "assets/splash-Lux_0.jpg" },
+    { title: "Patch 16.15 ban list and ProDraft notes", date: "3 Aug 2026", kind: "Rules", art: "assets/splash-Kaisa_0.jpg" },
+  ],
+  sponsors: ["Geeks n Gamerz", "Resin by Moonlight", "Illustration Studio"],
+  champs: { Aatrox: "assets/splash-Aatrox_0.jpg", Ahri: "assets/splash-Ahri_0.jpg", Yasuo: "assets/splash-Yasuo_0.jpg", Kaisa: "assets/splash-Kaisa_0.jpg", Jinx: "assets/splash-Jinx_0.jpg", Sett: "assets/splash-Sett_0.jpg", Viego: "assets/splash-Viego_0.jpg", Lux: "assets/splash-Lux_0.jpg", Ezreal: "assets/splash-Ezreal_0.jpg", Yone: "assets/splash-Yone_0.jpg", Akali: "assets/splash-Akali_0.jpg", Jhin: "assets/splash-Jhin_0.jpg" },
+};
+
+/* ===================== helpers ===================== */
+(function(){
+const D = window.LCR;
+const T = Object.fromEntries(D.teams.map(t => [t.tag, t]));
+const SCREENS = ["home","schedule","event","team","leaderboard"];
+const NAVMAP = { Home:"home", Schedule:"schedule", Events:"event", Teams:"team", Leaderboard:"leaderboard" };
+const TIER = { Iron:"#5D5A55", Bronze:"#8D603A", Silver:"#A4ABB6", Gold:"#C89B3C", Platinum:"#3AABA0", Diamond:"#5D68D6", Master:"#9A48FF", Grandmaster:"#D13639", Challenger:"#F0E6D2" };
+const ICON = {
+  play:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v2a4 4 0 0 0 4 3M16 6h4v2a4 4 0 0 1-4 3M12 13v4M8 21h8M9 17h6"/></svg>',
+  chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
+  left:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  discord:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.5 5.3A17 17 0 0 0 15.4 4l-.2.4a15 15 0 0 1 3.7 1.9 13.6 13.6 0 0 0-13.8 0A15 15 0 0 1 8.8 4.4L8.6 4a17 17 0 0 0-4.1 1.3C1.9 9.2 1.2 13 1.5 16.7a17 17 0 0 0 5.1 2.6l1.1-1.8a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.2 0l.4.3-1.7.8 1.1 1.8a17 17 0 0 0 5.1-2.6c.4-4.3-.7-8-3-11.4zM8.7 14.4c-1 0-1.8-.9-1.8-2.1s.8-2.1 1.8-2.1 1.9 1 1.8 2.1c0 1.2-.8 2.1-1.8 2.1zm6.6 0c-1 0-1.8-.9-1.8-2.1s.8-2.1 1.8-2.1 1.9 1 1.8 2.1c0 1.2-.8 2.1-1.8 2.1z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
+  star:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.7 5.8 21.2l1.4-7L2 9.4l7-.8z"/></svg>'
+};
+const crest = (tag, size=28) => {
+  const t = T[tag];
+  if (!t) return `<svg class="crest" width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true"><polygon points="10,2 38,2 30,38 2,38" fill="#1D1D20" stroke="#3A3A41"/><text x="20" y="25" text-anchor="middle" font-size="12" fill="#6C717A" font-family="Manrope,sans-serif" font-weight="800">?</text></svg>`;
+  return `<svg class="crest" width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true"><polygon points="10,2 38,2 30,38 2,38" fill="${t.color}" fill-opacity=".14" stroke="${t.color}" stroke-width="1.5"/><text x="20" y="25.5" text-anchor="middle" font-size="12.5" font-weight="800" fill="${t.color}" font-family="Manrope,sans-serif" letter-spacing="-.3">${tag}</text></svg>`;
+};
+const tname = tag => T[tag] ? T[tag].name : "TBD";
+const tierColor = tier => TIER[tier.split(" ")[0]] || "#A09B8C";
+const champBg = c => `style="background-image:url('${D.champs[c]}')"`;
+const formDots = f => `<span class="form" aria-label="Form ${f}">${[...f].map(c => `<i class="${c==='W'?'w':''}"></i>`).join("")}</span>`;
+const statusPill = s => s==="live" ? `<span class="pill live"><i></i><span>Live</span></span>` : s==="done" ? `<span class="pill done">Completed</span>` : `<span class="pill up">Upcoming</span>`;
+const eyebrow = (txt, sil) => `<span class="eyebrow ${sil?'sil':''}">${txt}</span>`;
+
+const liveMatch = D.schedule[0].matches[0];
+const standingsSorted = [...D.teams].sort((a,b) => b.w - a.w || a.l - b.l);
+
+/* ===================== match row ===================== */
+function matchRow(m){
+  const live = m.status==="live", done = m.status==="done";
+  const aWin = done && m.sa > m.sb, bWin = done && m.sb > m.sa;
+  const center = (live||done)
+    ? `<span class="score"><b class="${aWin?'w':''}">${m.sa}</b><i>–</i><b class="${bWin?'w':''}">${m.sb}</b></span>`
+    : `<span class="vs">vs</span>`;
+  const time = live
+    ? `<span class="pill live"><i></i><span>Live</span></span><span class="clock">Game ${m.game} · ${m.clock}</span>`
+    : `<span>${m.time}</span>`;
+  return `<a class="mrow ${m.status}" href="#event" data-screen="event">
+    <div class="mtime">${time}</div>
+    <div class="mteam a ${aWin?'win':''}"><span class="txt"><b>${m.a}</b><span class="nm">${tname(m.a)}</span></span>${crest(m.a)}</div>
+    ${center}
+    <div class="mteam b ${bWin?'win':''}">${crest(m.b)}<span class="txt"><b>${m.b}</b><span class="nm">${tname(m.b)}</span></span></div>
+    <div class="mmeta"><span>${m.stage}</span><span class="bo">Bo${m.bo}</span></div>
+  </a>`;
+}
+
+/* ===================== standings table ===================== */
+function standingsTable(limit, compact){
+  const rows = standingsSorted.slice(0, limit || 99).map((t,i) => {
+    const cls = i < 8 ? "q" : "e";
+    const pct = Math.round(t.w/(t.w+t.l)*100);
+    return `<tr class="${cls}">
+      <td class="rk">${i+1}</td>
+      <td><span class="tn">${crest(t.tag, 30)}<span>${t.name}${compact?"":`<small>${t.city} · ${t.country}${t.invite?" · Invite":""}</small>`}</span></span></td>
+      <td class="r">${t.w}</td><td class="r">${t.l}</td>
+      ${compact?"":`<td class="r">${pct}%</td>`}
+      <td class="r">${formDots(t.form)}</td>
+    </tr>`;
+  }).join("");
+  return `<table class="std"><thead><tr><th>#</th><th>Team</th><th class="r">W</th><th class="r">L</th>${compact?"":'<th class="r">Win %</th>'}<th class="r">Form</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+/* ===================== HOME ===================== */
+function renderHome(){
+  const ev = D.events[0];
+  const m = liveMatch;
+  const hero = `
+  <div class="hero">
+    <div class="copy">
+      <div class="ev"><img src="${ev.logo}" alt="${ev.name}">${eyebrow(`${ev.name} · ${m.stage}`)}</div>
+      <h1 class="disp title">Upper<br>Final<small>Lahore Lynx vs Dhaka Dragons</small></h1>
+      <div class="vsrow">
+        <div class="tm">${crest(m.a,44)}<div>${m.a}<span>${tname(m.a)}</span></div></div>
+        <div class="sc"><span class="silver-text">${m.sa}</span><em>–</em><span class="silver-text">${m.sb}</span></div>
+        <div class="tm"><div>${m.b}<span>${tname(m.b)}</span></div>${crest(m.b,44)}</div>
+      </div>
+      <div class="live-line"><span class="pill live"><i></i><span>Live</span></span><span>Game <b>${m.game}</b> of ${m.bo}</span><span>·</span><span>In-game <b class="num">${m.clock}</b></span><span>·</span><span>Series tied</span></div>
+      <div class="cta"><a class="btn primary" href="#">${ICON.play}Watch on Twitch</a><a class="btn" href="#event" data-screen="event">Match details${ICON.chevron}</a></div>
+    </div>
+    <div class="art"><img src="${ev.splash}" alt=""></div>
+    <a class="next" href="#schedule" data-screen="schedule">
+      <div><div class="lab">Up next</div><div class="big"><b>Grand Final</b> · Sunday 23:00</div></div>
+      <span class="pill up">Bo5</span>
+    </a>
+  </div>`;
+
+  const todayCards = D.schedule[0].matches.map(x => {
+    const live = x.status==="live";
+    return `<a class="tcard ${x.status}" href="#schedule" data-screen="schedule">
+      <div class="row1"><span>${live?`<span class="pill live"><i></i><span>Live</span></span>`:x.time+" PKT"}</span><span>Bo${x.bo}</span></div>
+      <div class="teams">
+        <div class="t">${crest(x.a,36)}${x.a}</div>
+        <div class="c">${live?`<span class="silver-text">${x.sa}–${x.sb}</span>`:`<small>vs</small>`}</div>
+        <div class="t r">${x.b}${crest(x.b,36)}</div>
+      </div>
+      <div class="stage"><span>${x.stage}</span>${live?`<span class="num">Game ${x.game} · ${x.clock}</span>`:""}</div>
+    </a>`;
+  }).join("");
+
+  const news = D.news.map(n => `<a class="ncard" href="#"><img src="${n.art}" alt=""><div class="txt"><span class="kind">${n.kind}</span><h3>${n.title}</h3><span class="date">${n.date}</span></div></a>`).join("");
+  const sponsors = D.sponsors.map(s => `<a class="sp" href="#">${s}</a>`).join("") + `<a class="sp disc" href="${D.org.discord}" target="_blank" rel="noopener">${ICON.discord}Join the Discord</a>`;
+
+  return `${hero}
+  <div class="block">
+    <div class="sec-head"><h2 class="disp h2">Today · Sat 8 Aug</h2><a class="link" href="#schedule" data-screen="schedule">Full schedule</a></div>
+    <div class="today-grid">${todayCards}</div>
+  </div>
+  <div class="block two">
+    <div>
+      <div class="sec-head"><h2 class="disp h2 sil">Playoff standings</h2><a class="link" href="#event" data-screen="event">Groups &amp; bracket</a></div>
+      ${standingsTable(6, true)}
+      <div class="legend"><span><i style="background:var(--silver-solid)"></i>Qualified to playoffs</span><span><i style="background:var(--line-2)"></i>Eliminated in groups</span></div>
+    </div>
+    <div>
+      <div class="sec-head"><h2 class="disp h2 sil">Events</h2><a class="link" href="#event" data-screen="event">All events</a></div>
+      <div class="panel"><div class="evl">${D.events.map(e => `<a href="#event" data-screen="event"><img src="${e.logo}" alt=""><span><b>${e.name}</b><small>${e.dates} · ${e.teams} teams · ${e.stage}</small></span>${statusPill(e.status)}</a>`).join("")}</div></div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="sec-head"><h2 class="disp h2 sil">News</h2><a class="link" href="#">Newsroom</a></div>
+    <div class="news-grid">${news}</div>
+  </div>
+  <div class="block">
+    <div class="sec-head"><h2 class="disp h2 sil">Partners</h2></div>
+    <div class="sponsors">${sponsors}</div>
+  </div>`;
+}
+
+/* ===================== SCHEDULE ===================== */
+function renderSchedule(){
+  const rail = `<aside class="rail left"><h4>Season 2026</h4><div class="evl">${D.events.map((e,i) => `<a href="#event" data-screen="event" class="${i===0?'on':''}"><img src="${e.logo}" alt=""><span><b>${e.name}</b><small>${e.dates} · ${e.stage}</small></span></a>`).join("")}</div></aside>`;
+  const days = D.schedule.map(g => `<div class="daygroup"><div class="day">${g.day}${g.date?`<small>${g.date}</small>`:""}</div><div class="mlist">${g.matches.map(matchRow).join("")}</div></div>`).join("");
+  const center = `<div>
+    <div class="hubbar">
+      <h1 class="disp">Schedule</h1>
+      <div class="ctrls">
+        <button class="chip" id="spoil">${ICON.eye}Spoilers shown</button>
+        <span class="chip on">${ICON.left}&nbsp;Today&nbsp;${ICON.chevron}</span>
+        <span class="chip">All events ${ICON.down}</span>
+        <span class="chip">${D.org.tz}</span>
+      </div>
+    </div>
+    <div id="sched-list">${days}</div>
+  </div>`;
+  const pr = standingsSorted.slice(0,5).map((t,i) => `<a href="#team" data-screen="team"><span class="rk">${i+1}</span>${crest(t.tag,30)}<span>${t.name}</span><span class="rec num">${t.w}–${t.l}</span></a>`).join("");
+  const nl = D.news.slice(0,3).map(n => `<a href="#"><img src="${n.art}" alt=""><span><b>${n.title}</b><small>${n.date}</small></span></a>`).join("");
+  const right = `<aside class="rail right"><h4>Power rankings</h4><div class="pr">${pr}</div><h4 style="margin-top:8px">News</h4><div class="nl">${nl}</div></aside>`;
+  return `<div class="hub">${rail}${center}${right}</div>`;
+}
+
+/* ===================== EVENT ===================== */
+function bracketBox(m, roundName){
+  const [a,sa,b,sb] = m;
+  const tbd = a==="TBD";
+  const live = roundName==="Upper Final";
+  const decided = !tbd && sa!==sb;
+  const row = (tag,s,win) => `<div class="tr ${tag==='TBD'?'tbd':''} ${win?'win':''}">${crest(tag,24)}<span class="nm">${tag==='TBD'?'TBD':tname(tag)}</span><span class="s">${tbd?'':s}</span></div>`;
+  return `<div class="bm ${live?'live':''}">${live?`<span class="lv pill live"><i></i><span>Live</span></span>`:''}${row(a,sa,decided&&sa>sb)}${row(b,sb,decided&&sb>sa)}</div>`;
+}
+function renderBracket(){
+  const col = r => `<div class="round"><h5>${r.round}</h5><div class="ms">${r.matches.map(m => bracketBox(m, r.round)).join("")}</div></div>`;
+  const up = D.bracket.upper.map(col).join("");
+  const lo = D.bracket.lower.map(col).join("");
+  const fin = `<div class="final"><h5 style="margin:0;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:6px 10px;background:var(--panel);border:1px solid var(--line)">Grand Final · Bo5</h5><div class="trophy">${ICON.trophy}<div class="big"><span class="silver-text">Sunday</span><br>23:00 PKT</div><small>Upper winner vs Lower winner</small>${bracketBox(D.bracket.final, "Grand Final")}</div></div>`;
+  return `<div class="bracket"><div class="bgrid">${up}${fin}${lo}</div></div>`;
+}
+function renderEvent(){
+  const ev = D.events[0];
+  const hero = `<div class="ehero"><img class="bg" src="${ev.splash}" alt="">
+    <div class="in">
+      <div class="logo"><img src="${ev.logo}" alt="${ev.name}"></div>
+      <div class="meta">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${statusPill("live")}<span class="pill done" style="transform:none">In progress</span>${eyebrow(ev.region, true)}</div>
+        <h1 class="disp title">${ev.name}</h1>
+        <div class="sub">${ev.full}</div>
+        <div class="facts"><div><small>Dates</small><b>${ev.dates}</b></div><div><small>Teams</small><b>${ev.teams}</b></div><div><small>Prize pool</small><b>${ev.prize}</b></div><div><small>Format</small><b>${ev.format}</b></div><div><small>Stage</small><b>${ev.stage}</b></div></div>
+      </div>
+      <div class="cta" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn primary" href="#">${ICON.play}Watch live</a><a class="btn" href="#schedule" data-screen="schedule">${ICON.calendar}Schedule</a></div>
+    </div></div>`;
+  const tabs = ["Overview","Groups","Playoffs","Teams","Rules"];
+  const tabbar = `<div class="tabs" role="tablist">${tabs.map(t => `<button role="tab" data-tab="${t}" aria-selected="${t==='Playoffs'}">${t}</button>`).join("")}</div>`;
+  const overview = `<div class="ov-grid">
+      <div class="ov"><small>Teams</small><b>12</b></div>
+      <div class="ov"><small>Prize pool</small><b class="silver-text">PKR 500K</b></div>
+      <div class="ov"><small>Matches played</small><b>74</b></div>
+      <div class="ov"><small>Grand Final</small><b>Sun 23:00</b></div>
+    </div>
+    <div class="sec-head"><h2 class="disp h2">Next up</h2><a class="link" href="#schedule" data-screen="schedule">Full schedule</a></div>
+    <div class="mlist">${D.schedule[0].matches.map(matchRow).join("")}</div>`;
+  const groups = `<div class="tscroll">${standingsTable()}</div><div class="legend"><span><i style="background:var(--silver-solid)"></i>Top 8 advance to playoffs</span><span><i style="background:var(--line-2)"></i>Eliminated</span><span>Form: last five games, newest right</span></div>`;
+  const teams = `<div class="teams-grid">${D.teams.map(t => `<a class="tmc" href="#team" data-screen="team">${crest(t.tag,44)}<span><b>${t.name}</b><small>${t.city} · Seed ${t.seed}${t.invite?" · Invite":""}</small></span><span class="rec num">${t.w}–${t.l}</span></a>`).join("")}</div>`;
+  const rules = `<div class="rules">
+    <div class="rule"><h3>Tournament format</h3><p><b>Group stage</b> 24–26 July, round robin.</p><p><b>Playoffs</b> 31 July – 9 August, double elimination, best of 3.</p><p><b>Grand Final</b> 9 August, best of 5.</p></div>
+    <div class="rule"><h3>Team requirements</h3><p>5 starting players, up to 4 substitutes with at least 1 mandatory substitute, 1 recommended coach and up to 1 manager.</p><p>Only registered members may play official matches.</p></div>
+    <div class="rule"><h3>Schedule</h3><p>Matches run Friday to Sunday inside the official window of <b>20:00 to 02:00 PKT</b>.</p><p>Teams are responsible for player availability, stable internet and power during scheduled matches.</p></div>
+    <div class="rule"><h3>Pause time rules</h3><p>Each team has <b>9 minutes</b> of pause time per game across a maximum of 3 pauses.</p><p>Over 9 minutes is a −0.2 point penalty in groups; over 12 minutes is a match loss.</p></div>
+  </div>`;
+  const panels = { Overview: overview, Groups: groups, Playoffs: renderBracket(), Teams: teams, Rules: rules };
+  const body = tabs.map(t => `<div class="tabpanel" role="tabpanel" data-panel="${t}" ${t==='Playoffs'?'':'hidden'}>${panels[t]}</div>`).join("");
+  return `${hero}${tabbar}${body}`;
+}
+
+/* ===================== TEAM ===================== */
+function renderTeam(){
+  const t = T[D.roster.team];
+  const head = `<div class="thead">
+    ${crest(t.tag, 120)}
+    <div class="meta">
+      ${eyebrow(`${t.city}, Pakistan · Seed ${t.seed} · ${D.events[0].name}`)}
+      <h1 class="disp title">${t.name}</h1>
+      <div class="sub"><span>Tag ${t.tag}</span><span>·</span><span>Coach ${D.roster.coach}</span><span>·</span><span>Founded 2023</span></div>
+    </div>
+    <div class="tstats"><div class="stat"><small>Record</small><b class="silver-text">${t.w}–${t.l}</b></div><div class="stat"><small>Form</small><b style="font-size:0;display:block;padding-top:14px">${formDots(t.form)}</b></div><div class="stat"><small>Win rate</small><b>${Math.round(t.w/(t.w+t.l)*100)}%</b></div></div>
+  </div>`;
+  const cards = D.roster.players.map(p => `<a class="pc" href="#"><img src="${p.art}" alt=""><span class="role">${p.role}</span>${p.captain?`<span class="cap"><span>${ICON.star}&nbsp;Captain</span></span>`:""}<div class="txt"><div class="ign">${p.ign}</div><div class="rn">${p.name}</div><div class="sig"><span>Signature <b>${p.champ}</b></span><span>KDA <b class="num">${p.kda}</b></span></div></div></a>`).join("");
+  const results = D.roster.results.map(r => `<a href="#"><span class="wl ${r[0]}">${r[0]}</span><span class="sc num">${r[1]}</span>${crest(r[2],28)}<span>vs ${tname(r[2])}</span><small>${r[3]}</small></a>`).join("");
+  return `${head}
+  <div class="block">
+    <div class="sec-head"><h2 class="disp h2">Roster</h2><span class="chip">${D.roster.players.length} players</span></div>
+    <div class="roster">${cards}</div>
+  </div>
+  <div class="block two">
+    <div><div class="sec-head"><h2 class="disp h2 sil">Recent results</h2><a class="link" href="#schedule" data-screen="schedule">All matches</a></div><div class="panel res">${results}</div></div>
+    <div><div class="sec-head"><h2 class="disp h2">Playing now</h2></div><div class="mlist">${matchRow(liveMatch)}</div><p style="color:var(--muted);margin:12px 0 0;font-weight:600;font-size:12px">Winner advances to the Grand Final on Sunday 23:00 PKT.</p></div>
+  </div>`;
+}
+
+/* ===================== LEADERBOARD ===================== */
+function renderLeaderboard(){
+  const rows = D.leaderboard.map(p => {
+    const rank = p.rank<=3 ? `<span class="medal m${p.rank}"><span>${p.rank}</span></span>` : p.rank;
+    const d = p.delta>0 ? `<span class="delta up">▲ ${p.delta}</span>` : p.delta<0 ? `<span class="delta dn">▼ ${Math.abs(p.delta)}</span>` : `<span class="delta eq">—</span>`;
+    return `<tr>
+      <td class="rank">${rank}</td>
+      <td><span class="pl">${crest(p.tag,32)}<span><b>${p.ign}</b><small>${p.tag} · ${p.country}</small></span></span></td>
+      <td>${p.role}</td>
+      <td><span class="tier" style="color:${tierColor(p.tier)}"><i></i>${p.tier}</span></td>
+      <td class="r lp">${p.lp.toLocaleString()}</td>
+      <td><span class="wr"><span class="bar"><i style="width:${p.wr}%"></i></span><b>${p.wr}%</b></span></td>
+      <td class="r">${p.games}</td>
+      <td><span class="champs">${p.champs.map(c => `<span class="champ" ${champBg(c)} title="${c}"></span>`).join("")}</span></td>
+      <td class="r">${d}</td>
+    </tr>`;
+  }).join("");
+  return `<div class="lb-head"><div>${eyebrow("Solo queue ladder · updated 6 min ago")}<h1 class="disp title">Leaderboard</h1></div><div class="chip">${D.org.tz}</div></div>
+  <div class="filters">
+    <span class="chip on">South Asia</span><span class="chip">Pakistan</span>
+    <span class="sep"></span>
+    <span class="chip on">All roles</span><span class="chip">Top</span><span class="chip">Jungle</span><span class="chip">Mid</span><span class="chip">Bot</span><span class="chip">Support</span>
+    <span class="sep"></span>
+    <label class="search">${ICON.search}<input id="lb-search" type="search" placeholder="Search player or team" aria-label="Search player or team"></label>
+  </div>
+  <div class="tscroll"><table class="lb" style="min-width:900px"><thead><tr><th>#</th><th>Player</th><th>Role</th><th>Tier</th><th class="r">LP</th><th>Win rate</th><th class="r">Games</th><th>Top champions</th><th class="r">24h</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+/* ===================== footer + nav + routing ===================== */
+function renderFooter(){
+  return `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="brand"><span class="mono" style="font-size:22px">LC</span></span><span>${D.org.name} · ${D.org.domain}</span><span class="chip">${ICON.calendar}All times ${D.org.tz}</span></div>
+  <div class="links"><a href="#">Terms of Service</a><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a><a href="#">Community Guidelines</a></div>`;
+}
+function renderNav(){
+  return D.nav.map(n => NAVMAP[n]
+    ? `<a href="#${NAVMAP[n]}" data-screen="${NAVMAP[n]}">${n}</a>`
+    : `<a href="#" class="inert" title="Not in this mockup" aria-disabled="true">${n}</a>`).join("");
+}
+function show(id){
+  if (!SCREENS.includes(id)) id = "home";
+  SCREENS.forEach(s => { document.getElementById(s).hidden = s!==id; });
+  document.querySelectorAll('nav.main a').forEach(a => a.classList.toggle('active', a.dataset.screen===id));
+  if (location.hash !== "#"+id) { try { history.replaceState(null, "", "#"+id); } catch(e) {} }
+  window.scrollTo({ top:0, behavior:"auto" });
+}
+
+document.getElementById("nav").innerHTML = renderNav();
+document.getElementById("home").innerHTML = renderHome();
+document.getElementById("schedule").innerHTML = renderSchedule();
+document.getElementById("event").innerHTML = renderEvent();
+document.getElementById("team").innerHTML = renderTeam();
+document.getElementById("leaderboard").innerHTML = renderLeaderboard();
+document.getElementById("footer").innerHTML = renderFooter();
+
+document.addEventListener("click", e => {
+  const a = e.target.closest("a");
+  if (a && a.dataset.screen) { e.preventDefault(); show(a.dataset.screen); return; }
+  if (a && a.classList.contains("inert")) { e.preventDefault(); return; }
+  if (a && a.getAttribute("href") === "#") { e.preventDefault(); return; }
+  const tab = e.target.closest("[data-tab]");
+  if (tab) {
+    const name = tab.dataset.tab;
+    tab.parentElement.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", b===tab));
+    document.querySelectorAll("#event [data-panel]").forEach(p => { p.hidden = p.dataset.panel !== name; });
+  }
+  if (e.target.closest("#spoil")) {
+    const list = document.getElementById("sched-list");
+    const btn = document.getElementById("spoil");
+    list.classList.toggle("spoilers");
+    const on = list.classList.contains("spoilers");
+    btn.classList.toggle("on", on);
+    btn.innerHTML = ICON.eye + (on ? "Spoilers hidden" : "Spoilers shown");
+  }
+});
+window.addEventListener("hashchange", () => show(location.hash.replace("#","")));
+show(location.hash.replace("#",""));
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>LCR Broadcast Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: lolesports-style broadcast hub. Near-black canvas, #1C1C1C rails, one electric accent, condensed uppercase display. */
+:root{
+  --bg:#0E0E0E; --panel:#1C1C1C; --raised:#262626; --line:#2C2C2C; --line-2:#383838;
+  --fg:#FFFFFF; --muted:#8C8C8C; --faint:#5E5E5E;
+  --accent:#10E4F9; --accent-ink:#04171A; --accent-dim:rgba(16,228,249,.14);
+  --live:#E5242B; --win:#FFFFFF; --loss:#6A6A6A; --gold:#F2C14E; --silver:#C9CED6; --bronze:#C98A4B;
+  --t-chal:#F0E6D2; --t-gm:#E0433A; --t-master:#A463FF; --t-dia:#6F7BFF;
+  --display:"Barlow Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --r:4px; --r-sm:2px; --max:1440px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+html{scroll-padding-top:100vh}
+body{font-family:var(--body);color:var(--fg);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{margin:0;font-family:var(--display);text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;line-height:1}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- chrome ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#111;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:50;background:#111}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.topbar{display:flex;align-items:center;gap:22px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:6px}
+.brand .lcr{font-family:var(--display);font-weight:800;font-style:italic;font-size:26px;letter-spacing:-.01em;color:#E8102A;line-height:1}
+.brand .lc{display:flex;flex-direction:column;line-height:1}
+.brand .lc b{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.brand .lc span{font-size:9px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+nav.main{display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+nav.main::-webkit-scrollbar{display:none}
+nav.main button{position:relative;height:56px;padding:0 12px;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#CFCFCF;white-space:nowrap}
+nav.main button:hover{color:#fff}
+nav.main button[aria-current]{color:#fff}
+nav.main button[aria-current]::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--accent)}
+nav.main button.inert{color:#8a8a8a}
+.topright{display:flex;align-items:center;gap:8px;margin-left:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 14px;border-radius:var(--r);font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent;transition:background .15s,color .15s,border-color .15s;white-space:nowrap}
+.btn svg{width:16px;height:16px;flex:none}
+.btn-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn-primary:hover{background:#5FEEFF}
+.btn-ghost{background:var(--raised);color:#fff;border-color:var(--line-2)}
+.btn-ghost:hover{background:#2f2f2f;border-color:#4a4a4a}
+.btn-outline{background:transparent;color:#fff;border-color:#4a4a4a}
+.btn-outline:hover{border-color:#777}
+.btn-live{background:var(--live);color:#fff;border-color:var(--live)}
+.btn-live:hover{background:#ff3a41}
+.btn-sm{height:30px;padding:0 10px;font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:var(--r-sm);font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--raised);color:#ddd}
+.pill-live{background:var(--live);color:#fff}
+.pill-live i{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.pill-accent{background:var(--accent-dim);color:var(--accent)}
+.pill-done{background:#222;color:var(--muted)}
+.pill-up{background:#1f2a2c;color:#8fd9e2}
+.kicker{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 14px}
+.sec-head h2{font-size:26px;font-weight:700}
+.sec-head a,.sec-head button.link{font-family:var(--display);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:13px;color:var(--accent)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+main{padding-block:0 56px}
+section[hidden]{display:none}
+.row-gap{display:grid;gap:28px}
+
+/* ---------- crest ---------- */
+.crest{display:inline-block;flex:none;vertical-align:middle}
+.tag{font-family:var(--display);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+/* ---------- hero ---------- */
+.hero{position:relative;margin-top:16px;border-radius:var(--r);overflow:hidden;min-height:440px;display:flex;align-items:end;border:1px solid var(--line)}
+.hero .art{position:absolute;inset:0;background-size:cover;background-position:70% 20%}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,14,14,.96) 0%,rgba(14,14,14,.82) 38%,rgba(14,14,14,.25) 70%,rgba(14,14,14,.1) 100%),linear-gradient(0deg,rgba(14,14,14,.9) 0%,rgba(14,14,14,0) 45%)}
+.hero .in{position:relative;padding:36px 32px;display:grid;gap:18px;max-width:760px}
+.hero .eyebrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero .eyebrow img{height:34px;width:auto}
+.hero .eyebrow .kicker{color:#cfcfcf}
+.versus{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.versus .side{display:flex;align-items:center;gap:14px}
+.versus .side .tag{font-size:40px;line-height:1}
+.versus .side small{display:block;font-family:var(--body);font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted);font-size:13px}
+.versus .score{font-family:var(--display);font-weight:800;font-size:56px;line-height:1;letter-spacing:.02em}
+.versus .score span{color:var(--muted);font-weight:600;font-size:34px;margin:0 6px}
+.hero h1{font-size:clamp(28px,4vw,46px);font-weight:800}
+.hero .meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:#ddd}
+.hero .meta .clock{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.08em}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- match rows ---------- */
+.day{margin-bottom:22px}
+.day h3{position:sticky;top:calc(56px + env(safe-area-inset-top,0px));z-index:5;background:var(--bg);padding:12px 0 10px;font-size:20px;font-weight:700;display:flex;gap:10px;align-items:baseline}
+.day h3 small{font-family:var(--body);font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:600}
+.match{display:grid;grid-template-columns:74px 1fr auto;align-items:stretch;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin-bottom:8px;overflow:hidden;transition:border-color .15s,background .15s}
+.match:hover{border-color:#444;background:#202020}
+.match.live{border-color:rgba(229,36,43,.55)}
+.match .time{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-right:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.04em}
+.match .time .pill{height:18px;font-size:10px;padding:0 6px}
+.match .mid{display:grid;grid-template-rows:1fr auto;min-width:0}
+.match .teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:14px 16px}
+.match .t{display:flex;align-items:center;gap:10px;min-width:0}
+.match .t.r{justify-content:end;text-align:right}
+.match .t .name{min-width:0}
+.match .t .tag{font-size:20px}
+.match .t .full{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.match .t.lost .tag,.match .t.lost .full{color:var(--loss)}
+.match .vs{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.04em;min-width:64px;text-align:center}
+.match .vs.sm{font-size:14px;color:var(--muted);font-weight:600}
+.match .vs .liveclock{display:block;font-size:11px;color:var(--live);letter-spacing:.1em;font-weight:700}
+.match .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 16px;border-top:1px solid var(--line);background:#181818;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.match .foot b{color:#ccc;font-weight:600}
+.match .act{display:flex;align-items:center;padding:0 14px;border-left:1px solid var(--line)}
+.match .act .btn{min-width:92px}
+@media (max-width:720px){
+  .match{grid-template-columns:58px 1fr}
+  .match .act{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);padding:8px 12px;justify-content:end}
+  .match .t .full{display:none}
+  .match .time{font-size:16px}
+}
+
+/* ---------- home grids ---------- */
+.today-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mini{display:grid;gap:10px;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.mini:hover{border-color:#444}
+.mini .l1{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-family:var(--display);font-weight:600}
+.mini .l2{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.mini .l2 .t{display:flex;align-items:center;gap:8px}
+.mini .l2 .t.r{justify-content:end}
+.mini .l2 .tag{font-size:18px}
+.mini .l2 .sc{font-family:var(--display);font-weight:800;font-size:22px}
+.mini .l3{font-size:12px;color:var(--muted)}
+@media (max-width:900px){.today-strip{grid-template-columns:1fr}}
+.two{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}
+@media (max-width:980px){.two{grid-template-columns:1fr}}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.table td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+.table tr:last-child td{border-bottom:0}
+.table tbody tr:hover td{background:#202020}
+.table .team{display:flex;align-items:center;gap:10px;min-width:0}
+.table .team .tag{font-size:16px}
+.table .team .full{font-size:12px;color:var(--muted)}
+.table td.r,.table th.r{text-align:right}
+.table td.c,.table th.c{text-align:center}
+.rank{font-family:var(--display);font-weight:700;font-size:16px;color:#ddd;width:22px;display:inline-block}
+.form{display:inline-flex;gap:3px}
+.form i{width:14px;height:14px;border-radius:2px;display:inline-grid;place-items:center;font-style:normal;font-size:9px;font-weight:700;font-family:var(--display)}
+.form i.w{background:var(--accent);color:var(--accent-ink)}
+.form i.l{background:#3a3a3a;color:#aaa}
+tr.q td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+tr.e td:first-child{box-shadow:inset 3px 0 0 #5a2a2a}
+.legend{display:flex;gap:16px;padding:10px 12px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.events{display:grid;gap:8px}
+.ev{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.ev:hover{border-color:#444}
+.ev .logo{width:52px;height:52px;display:grid;place-items:center;background:#111;border-radius:var(--r);border:1px solid var(--line)}
+.ev .logo img{max-height:42px;width:auto}
+.ev b{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.03em;text-transform:uppercase;display:block}
+.ev span{font-size:12px;color:var(--muted)}
+.news{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.card:hover{border-color:#444}
+.card .img{aspect-ratio:16/9;background-size:cover;background-position:center 20%;position:relative}
+.card .img::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5),transparent 60%)}
+.card .img .pill{position:absolute;left:10px;bottom:10px}
+.card .body{padding:12px 14px;display:grid;gap:6px;align-content:start}
+.card h4{font-size:17px;font-weight:700;letter-spacing:.02em;text-transform:none;font-family:var(--body);line-height:1.3}
+.card time{font-size:12px;color:var(--muted)}
+@media (max-width:980px){.news{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.news{grid-template-columns:1fr}}
+.sponsors{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sponsor{height:96px;display:grid;place-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:#bdbdbd}
+.sponsor.discord{background:#5865F2;color:#fff;border-color:#5865F2;display:flex;gap:10px}
+.sponsor.discord svg{width:22px;height:22px}
+@media (max-width:720px){.sponsors{grid-template-columns:repeat(2,1fr)}}
+footer{border-top:1px solid var(--line);margin-top:48px;padding-block:22px 48px;color:var(--muted);font-size:12px}
+footer .in{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+footer .links{display:flex;gap:18px;flex-wrap:wrap}
+footer a:hover{color:#fff}
+
+/* ---------- schedule hub ---------- */
+.hub{display:grid;grid-template-columns:240px minmax(0,1fr) 300px;gap:0;margin-top:0}
+.rail{background:#121212;border-right:1px solid var(--line);padding:18px 0}
+.rail .kicker{padding:0 16px 10px}
+.rail .item{display:grid;gap:2px;padding:10px 16px;border-left:3px solid transparent;cursor:pointer}
+.rail .item:hover{background:#181818}
+.rail .item.active{border-left-color:var(--accent);background:linear-gradient(90deg,rgba(16,228,249,.12),transparent 80%)}
+.rail .item small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.rail .item b{font-family:var(--display);font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.02em}
+.rail .item.active b{color:var(--accent)}
+.rail .item span{font-size:12px;color:var(--muted)}
+.center{padding:18px 22px;min-width:0}
+.center .ctl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.center .ctl h2{font-size:30px}
+.ctlbtns{display:flex;gap:8px;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--raised);border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
+.seg button{height:34px;padding:0 12px;font-family:var(--display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:#ddd}
+.seg button+button{border-left:1px solid var(--line-2)}
+.seg button:hover{background:#303030}
+.seg button svg{width:14px;height:14px;vertical-align:-2px}
+.rightrail{background:#121212;border-left:1px solid var(--line);padding:18px 16px;display:grid;gap:22px;align-content:start}
+.rr h3{font-size:18px;margin-bottom:10px}
+.pr{display:grid;gap:6px}
+.pr .p{display:grid;grid-template-columns:20px 28px 1fr auto;align-items:center;gap:10px;font-size:13px}
+.pr .p .n{font-family:var(--display);font-weight:700;font-size:15px;color:#aaa}
+.pr .p .rec{color:var(--muted)}
+.newsl{display:grid;gap:10px}
+.newsl .n{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center}
+.newsl .n .th{aspect-ratio:16/10;background-size:cover;background-position:center;border-radius:var(--r-sm)}
+.newsl .n b{font-size:13px;font-weight:600;display:block;line-height:1.3}
+.newsl .n span{font-size:11px;color:var(--muted)}
+@media (max-width:1100px){.hub{grid-template-columns:220px 1fr}.rightrail{display:none}}
+@media (max-width:820px){.hub{grid-template-columns:1fr}.rail{border-right:0;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;padding:10px 8px;gap:4px}.rail .kicker{display:none}.rail .item{border-left:0;border-bottom:3px solid transparent;white-space:nowrap;padding:8px 12px}.rail .item.active{border-bottom-color:var(--accent);background:none}.center{padding:14px 0}}
+
+/* ---------- event hub ---------- */
+.evhero{position:relative;min-height:260px;display:flex;align-items:end;overflow:hidden;border-bottom:1px solid var(--line)}
+.evhero .art{position:absolute;inset:0;background-size:cover;background-position:center 25%}
+.evhero .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,14,14,.95) 0%,rgba(14,14,14,.6) 50%,rgba(14,14,14,.2) 100%),linear-gradient(0deg,rgba(14,14,14,1) 0%,rgba(14,14,14,0) 60%)}
+.evhero .in{position:relative;display:flex;align-items:end;gap:22px;padding-block:28px 22px;width:100%;flex-wrap:wrap}
+.evhero .logo{width:112px;height:112px;display:grid;place-items:center;background:rgba(0,0,0,.5);border:1px solid var(--line-2);border-radius:var(--r);flex:none}
+.evhero .logo img{max-height:92px;width:auto}
+.evhero h1{font-size:clamp(30px,4.5vw,52px);font-weight:800}
+.evhero .meta{display:flex;gap:8px 18px;flex-wrap:wrap;color:#ddd;font-size:13px;margin-top:10px;align-items:center}
+.evhero .meta b{font-family:var(--display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-size:12px;margin-right:6px}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-block:14px 0;border-bottom:1px solid var(--line);margin-bottom:22px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;display:grid;gap:2px;text-align:left;padding:10px 16px 12px;min-width:150px;background:var(--panel);border:1px solid var(--line);border-bottom:0;border-radius:var(--r) var(--r) 0 0;color:#ddd}
+.tabs button small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tabs button b{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.03em}
+.tabs button:hover{background:#222}
+.tabs button[aria-selected="true"]{background:var(--raised);color:#fff;box-shadow:inset 0 -2px 0 var(--accent)}
+.tabpanel[hidden]{display:none}
+.bracket-wrap{overflow-x:auto;padding-bottom:10px}
+.bracket{display:grid;grid-auto-flow:column;grid-auto-columns:232px;gap:28px;min-width:max-content;padding:12px 2px 12px}
+.round{display:flex;flex-direction:column}
+.round h4{font-size:12px;letter-spacing:.14em;color:#ccc;background:var(--raised);padding:7px 10px;border-radius:var(--r-sm);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.round h4 .dots{display:inline-flex;gap:3px}
+.round h4 .dots i{width:7px;height:7px;border-radius:1px;background:#4a4a4a}
+.round h4 .dots i.on{background:var(--accent)}
+.round h4 .dots i.red{background:var(--live)}
+.round .ms{display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:14px}
+.mbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);position:relative}
+.mbox .tr{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:10px;padding:9px 10px;border-left:3px solid transparent}
+.mbox .tr+.tr{border-top:1px solid var(--line)}
+.mbox .tr.w{border-left-color:var(--accent)}
+.mbox .tr.w .tag,.mbox .tr.w .sc{color:#fff}
+.mbox .tr .tag{font-size:15px;color:#bdbdbd}
+.mbox .tr .sc{font-family:var(--display);font-weight:800;font-size:16px;color:#bdbdbd}
+.mbox .tr.tbd .tag{color:var(--faint)}
+.mbox .tr.live-row .sc{color:var(--live)}
+.mbox .lbl{position:absolute;right:8px;top:-9px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;background:var(--live);color:#fff;padding:1px 6px;border-radius:2px;font-weight:700}
+.bgroup{margin-bottom:28px}
+.bgroup>h3{font-size:18px;margin-bottom:10px;color:#ddd}
+.grid-teams{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tcard{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center;padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.tcard:hover{border-color:#444}
+.tcard b{font-family:var(--display);font-size:18px;text-transform:uppercase;font-weight:700;display:block}
+.tcard span{font-size:12px;color:var(--muted)}
+@media (max-width:980px){.grid-teams{grid-template-columns:repeat(2,1fr)}}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.rule{padding:16px 18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.rule h4{font-size:17px;margin-bottom:8px;letter-spacing:.04em}
+.rule p{margin:0;color:#cfcfcf;font-size:13px;line-height:1.55}
+@media (max-width:720px){.rules{grid-template-columns:1fr}}
+.info{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.info .k{padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.info .k small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
+.info .k b{font-family:var(--display);font-size:20px;font-weight:700;text-transform:uppercase}
+@media (max-width:720px){.info{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- team ---------- */
+.thead{display:flex;align-items:center;gap:22px;padding-block:28px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.thead .big{filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
+.thead h1{font-size:clamp(30px,4.5vw,50px);font-weight:800}
+.thead .sub{display:flex;gap:8px 18px;flex-wrap:wrap;align-items:center;color:#ddd;font-size:13px;margin-top:8px}
+.thead .rec{margin-left:auto;display:flex;gap:10px}
+.stat{min-width:96px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.stat small{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.stat b{font-family:var(--display);font-size:26px;font-weight:800}
+.roster{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pcard{position:relative;aspect-ratio:4/4.6;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#111;display:flex;align-items:end;background-size:cover;background-position:center 15%;transition:transform .2s,border-color .2s}
+.pcard:hover{border-color:#555;transform:translateY(-2px)}
+.pcard::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.97) 0%,rgba(10,10,10,.75) 32%,rgba(10,10,10,.05) 62%)}
+.pcard .role{position:absolute;left:14px;top:14px}
+.pcard .cap{position:absolute;right:14px;top:14px}
+.pcard .in{position:relative;padding:16px;display:grid;gap:4px;width:100%}
+.pcard .ign{font-family:var(--display);font-weight:800;font-size:34px;text-transform:uppercase;line-height:1}
+.pcard .real{color:#cfcfcf;font-size:13px}
+.pcard .sig{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12);font-size:12px;color:var(--muted)}
+.pcard .sig b{color:#fff;font-weight:600}
+@media (max-width:980px){.roster{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.roster{grid-template-columns:1fr}}
+.results{display:grid;gap:6px}
+.res{display:grid;grid-template-columns:34px 56px 1fr auto;align-items:center;gap:12px;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);font-size:13px}
+.res .wl{font-family:var(--display);font-weight:800;font-size:16px;text-align:center;border-radius:var(--r-sm);height:26px;display:grid;place-items:center}
+.res .wl.W{background:var(--accent);color:var(--accent-ink)}
+.res .wl.L{background:#3a3a3a;color:#bbb}
+.res .sc{font-family:var(--display);font-weight:700;font-size:18px}
+.res .st{color:var(--muted)}
+
+/* ---------- leaderboard ---------- */
+.lbhead{display:flex;align-items:end;justify-content:space-between;gap:16px;padding-block:28px 16px;flex-wrap:wrap}
+.lbhead h1{font-size:clamp(30px,4.5vw,48px);font-weight:800}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.chip{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--raised);font-family:var(--display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:12px;color:#ddd}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.search{display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--raised);color:var(--muted);min-width:220px;margin-left:auto}
+.search svg{width:14px;height:14px}
+.search input{background:none;border:0;color:#fff;font:inherit;outline:0;width:100%}
+.medal{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-family:var(--display);font-weight:800;font-size:13px;color:#111}
+.medal.m1{background:var(--gold)}.medal.m2{background:var(--silver)}.medal.m3{background:var(--bronze)}
+.tier{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:var(--r-sm);font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:#222;color:#ddd}
+.tier i{width:8px;height:8px;transform:rotate(45deg);display:inline-block}
+.wr{display:inline-grid;gap:4px;min-width:110px}
+.wr .bar{height:4px;background:#333;border-radius:2px;overflow:hidden}
+.wr .bar i{display:block;height:100%;background:var(--accent)}
+.champs{display:inline-flex}
+.champs i{width:26px;height:26px;border-radius:50%;background-size:260%;background-position:35% 15%;border:2px solid var(--panel);margin-left:-8px}
+.champs i:first-child{margin-left:0}
+.delta{font-family:var(--display);font-weight:700;font-size:13px}
+.delta.up{color:#3DD68C}.delta.down{color:#FF6B6B}.delta.flat{color:var(--faint)}
+.lbwrap{overflow-x:auto}
+.ign{font-family:var(--display);font-weight:700;font-size:17px;text-transform:uppercase}
+.ign small{font-family:var(--body);font-weight:600;font-size:11px;color:var(--muted);margin-left:6px;letter-spacing:.06em}
+
+.mockchip{position:fixed;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:#bbb;background:rgba(20,20,20,.9);border:1px solid var(--line-2);border-radius:999px;padding:6px 10px;backdrop-filter:blur(6px)}
+.mockchip b{color:var(--accent)}
+</style>
+
+<header class="top">
+  <div class="wrap topbar">
+    <a class="brand" href="#home" data-go="home" aria-label="League Championship home">
+      <span class="lcr">LCR</span>
+      <span class="lc"><b>League Championship</b><span>Esports Events</span></span>
+    </a>
+    <nav class="main" id="nav" aria-label="Primary"></nav>
+    <div class="topright">
+      <button class="btn btn-ghost btn-sm" type="button">Login</button>
+      <button class="btn btn-primary btn-sm" type="button">Sign up</button>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+  <section id="home" aria-label="Home"></section>
+  <section id="schedule" aria-label="Schedule" hidden></section>
+  <section id="event" aria-label="Event" hidden></section>
+  <section id="team" aria-label="Team" hidden></section>
+  <section id="leaderboard" aria-label="Leaderboard" hidden></section>
+</main>
+
+<footer>
+  <div class="wrap in">
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <span><b style="color:#fff">League Championship</b> · leaguechampionship.org</span>
+      <span class="pill">All times PKT (UTC+5)</span>
+    </div>
+    <div class="links">
+      <a href="#">Terms of Service</a><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a><a href="#">Community Guidelines</a>
+    </div>
+    <span>League of Legends is a trademark of Riot Games, Inc. League Championship is not endorsed by Riot Games.</span>
+  </div>
+</footer>
+
+<div class="mockchip"><b>Direction A</b> · Broadcast — sample data</div>
+
+<script>
+try{history.scrollRestoration='manual'}catch(e){}
+window.addEventListener('load',function(){setTimeout(function(){window.scrollTo(0,0)},0)});
+
+window.LCR = {
+  org: { name: "League Championship", short: "LCR", domain: "leaguechampionship.org", tagline: "South Asia's League of Legends circuit", tz: "PKT (UTC+5)", discord: "https://discord.gg/VdCbk5DXfJ" },
+  nav: ["Home", "Schedule", "Events", "Teams", "Leaderboard", "Community", "Scrims", "LOL IQ"],
+  events: [
+    { id: "lcr-2026", name: "LCR 2026", full: "League Championship Rizar 2026 — South Asia", stage: "Playoffs", status: "live", dates: "24 Jul – 9 Aug", logo: "assets/lcr-2026-logo.webp", teams: 12, prize: "PKR 500,000", format: "Round Robin → Double Elim Bo3 → Bo5 Final", region: "South Asia", splash: "assets/splash-Jhin_0.jpg" },
+    { id: "lcr-oq-pak", name: "LCR Open Qualifier", full: "LCR Open Qualifier — Pakistan", stage: "Completed", status: "done", dates: "3 – 12 Jul", logo: "assets/lcr-oq-pak.webp", teams: 32, prize: "4 LCR slots", format: "Single Elim Bo1 → Bo3", region: "Pakistan", splash: "assets/splash-Yasuo_0.jpg" },
+    { id: "pclt-2026", name: "PCLT '26", full: "Pakistan Collegiate League Tour 2026", stage: "Registration open", status: "upcoming", dates: "5 Sep – 18 Oct", logo: "assets/pclt-2026.webp", teams: 16, prize: "PKR 150,000", format: "Groups → Single Elim", region: "Pakistan", splash: "assets/splash-Lux_0.jpg" },
+    { id: "enc-2026", name: "ENC Open Qualifiers", full: "ENC Pakistan Open Qualifiers 2026", stage: "Upcoming", status: "upcoming", dates: "1 – 9 Nov", logo: "assets/enc-2026.webp", teams: 24, prize: "ENC main-event slot", region: "Pakistan", format: "Double Elim Bo3", splash: "assets/splash-Kaisa_0.jpg" },
+    { id: "bidding-26", name: "Bidding '26", full: "Captains' Bidding Draft 2026", stage: "Announced", status: "upcoming", dates: "Dec", logo: "assets/bidding-26.webp", teams: 8, prize: "PKR 100,000", region: "Pakistan", format: "Draft league", splash: "assets/splash-Ezreal_0.jpg" },
+  ],
+  teams: [
+    { tag: "LNX", name: "Lahore Lynx", city: "Lahore", country: "PK", color: "#E8B04B", w: 9, l: 2, form: "WWWLW", seed: 1 },
+    { tag: "KRK", name: "Karachi Kraken", city: "Karachi", country: "PK", color: "#2FB8C6", w: 8, l: 3, form: "WLWWW", seed: 2 },
+    { tag: "DHK", name: "Dhaka Dragons", city: "Dhaka", country: "BD", color: "#E0433A", w: 8, l: 3, form: "WWLWW", seed: 3, invite: true },
+    { tag: "ISB", name: "Islamabad Ironclad", city: "Islamabad", country: "PK", color: "#8E9BA8", w: 7, l: 4, form: "LWWWL", seed: 4 },
+    { tag: "CMB", name: "Colombo Comets", city: "Colombo", country: "LK", color: "#7B5BE6", w: 6, l: 5, form: "WLWLW", seed: 5, invite: true },
+    { tag: "PSH", name: "Peshawar Phantoms", city: "Peshawar", country: "PK", color: "#5FB3F5", w: 6, l: 5, form: "LLWWW", seed: 6 },
+    { tag: "KTM", name: "Kathmandu Kites", city: "Kathmandu", country: "NP", color: "#F06D9D", w: 5, l: 6, form: "WLLWL", seed: 7, invite: true },
+    { tag: "QTA", name: "Quetta Quasars", city: "Quetta", country: "PK", color: "#58D68D", w: 4, l: 7, form: "LWLLW", seed: 8 },
+    { tag: "MLT", name: "Multan Mavericks", city: "Multan", country: "PK", color: "#F39C4A", w: 3, l: 8, form: "LLWLL", seed: 9 },
+    { tag: "FSD", name: "Faisalabad Falcons", city: "Faisalabad", country: "PK", color: "#C9A227", w: 3, l: 8, form: "LLLWL", seed: 10 },
+    { tag: "HYD", name: "Hyderabad Hydra", city: "Hyderabad", country: "PK", color: "#3DD6C1", w: 2, l: 9, form: "LLLLW", seed: 11 },
+    { tag: "SKT", name: "Sialkot Sentinels", city: "Sialkot", country: "PK", color: "#B388FF", w: 1, l: 10, form: "LLLLL", seed: 12 },
+  ],
+  schedule: [
+    { day: "Today", date: "Sat 8 Aug", matches: [
+      { time: "20:00", a: "LNX", b: "DHK", sa: 1, sb: 1, bo: 3, stage: "Playoffs • Upper Final", status: "live", game: 3, clock: "27:14" },
+      { time: "22:00", a: "KRK", b: "ISB", bo: 3, stage: "Playoffs • Lower Semifinal", status: "upcoming" },
+      { time: "00:00", a: "CMB", b: "PSH", bo: 3, stage: "Playoffs • Lower Round 2", status: "upcoming" },
+    ]},
+    { day: "Tomorrow", date: "Sun 9 Aug", matches: [
+      { time: "20:00", a: "TBD", b: "TBD", bo: 3, stage: "Playoffs • Lower Final", status: "upcoming" },
+      { time: "23:00", a: "TBD", b: "TBD", bo: 5, stage: "Grand Final", status: "upcoming", featured: true },
+    ]},
+    { day: "Yesterday", date: "Fri 7 Aug", matches: [
+      { time: "20:00", a: "ISB", b: "KTM", sa: 2, sb: 0, bo: 3, stage: "Playoffs • Lower Round 1", status: "done" },
+      { time: "22:00", a: "PSH", b: "QTA", sa: 2, sb: 1, bo: 3, stage: "Playoffs • Lower Round 1", status: "done" },
+      { time: "00:00", a: "KRK", b: "CMB", sa: 2, sb: 1, bo: 3, stage: "Playoffs • Upper Semifinal", status: "done" },
+    ]},
+    { day: "Fri 31 Jul", date: "", matches: [
+      { time: "20:00", a: "LNX", b: "PSH", sa: 2, sb: 0, bo: 3, stage: "Playoffs • Quarterfinal", status: "done" },
+      { time: "22:00", a: "DHK", b: "ISB", sa: 2, sb: 1, bo: 3, stage: "Playoffs • Quarterfinal", status: "done" },
+    ]},
+  ],
+  bracket: {
+    upper: [
+      { round: "Upper Quarterfinals", matches: [ ["LNX", 2, "PSH", 0], ["ISB", 1, "DHK", 2], ["KRK", 2, "KTM", 0], ["CMB", 2, "QTA", 1] ] },
+      { round: "Upper Semifinals", matches: [ ["LNX", 2, "DHK", 1], ["KRK", 2, "CMB", 1] ] },
+      { round: "Upper Final", matches: [ ["LNX", 1, "KRK", 1] ] },
+    ],
+    lower: [
+      { round: "Lower Round 1", matches: [ ["ISB", 2, "KTM", 0], ["PSH", 2, "QTA", 1] ] },
+      { round: "Lower Round 2", matches: [ ["DHK", 2, "ISB", 0], ["CMB", 0, "PSH", 0] ] },
+      { round: "Lower Final", matches: [ ["TBD", 0, "TBD", 0] ] },
+    ],
+    final: ["TBD", 0, "TBD", 0],
+  },
+  roster: {
+    team: "LNX", coach: "Hamza 'Hamz' Qureshi",
+    players: [
+      { ign: "Saqlain", name: "Saqlain Ahmed", role: "Top", champ: "Aatrox", kda: "4.1", country: "PK", art: "assets/splash-Aatrox_0.jpg" },
+      { ign: "Zayn", name: "Zayn Malik Khan", role: "Jungle", champ: "Viego", kda: "5.3", country: "PK", art: "assets/splash-Viego_0.jpg" },
+      { ign: "Rafay", name: "Abdul Rafay", role: "Mid", champ: "Yone", kda: "6.0", country: "PK", art: "assets/splash-Yone_0.jpg", captain: true },
+      { ign: "Hunzala", name: "Hunzala Sheikh", role: "Bot", champ: "Jinx", kda: "7.2", country: "PK", art: "assets/splash-Jinx_0.jpg" },
+      { ign: "Mehran", name: "Mehran Baig", role: "Support", champ: "Lux", kda: "4.8", country: "PK", art: "assets/splash-Lux_0.jpg" },
+      { ign: "Tabish", name: "Tabish Raza", role: "Sub • Mid", champ: "Akali", kda: "3.9", country: "PK", art: "assets/splash-Akali_0.jpg" },
+    ],
+    results: [ ["W", "2–1", "DHK", "Upper SF"], ["W", "2–0", "PSH", "Upper QF"], ["W", "1–0", "KRK", "Groups"], ["L", "0–1", "DHK", "Groups"], ["W", "1–0", "ISB", "Groups"] ],
+  },
+  leaderboard: [
+    { rank: 1, ign: "Rafay", tag: "LNX", tier: "Challenger", lp: 1012, wr: 61, games: 318, role: "Mid", champs: ["Yone", "Ahri", "Akali"], country: "PK", delta: 0 },
+    { rank: 2, ign: "Farhan", tag: "KRK", tier: "Grandmaster", lp: 742, wr: 58, games: 402, role: "Jungle", champs: ["Viego", "Sett", "Lux"], country: "PK", delta: 2 },
+    { rank: 3, ign: "Hunzala", tag: "LNX", tier: "Grandmaster", lp: 701, wr: 57, games: 275, role: "Bot", champs: ["Jinx", "Kaisa", "Ezreal"], country: "PK", delta: -1 },
+    { rank: 4, ign: "Arnab", tag: "DHK", tier: "Grandmaster", lp: 688, wr: 56, games: 390, role: "Mid", champs: ["Akali", "Yasuo", "Yone"], country: "BD", delta: 1 },
+    { rank: 5, ign: "Saqlain", tag: "LNX", tier: "Master", lp: 512, wr: 55, games: 221, role: "Top", champs: ["Aatrox", "Sett", "Jhin"], country: "PK", delta: -2 },
+    { rank: 6, ign: "Danish", tag: "ISB", tier: "Master", lp: 490, wr: 54, games: 356, role: "Support", champs: ["Lux", "Ahri", "Kaisa"], country: "PK", delta: 0 },
+    { rank: 7, ign: "Tharindu", tag: "CMB", tier: "Master", lp: 455, wr: 53, games: 198, role: "Bot", champs: ["Ezreal", "Jinx", "Jhin"], country: "LK", delta: 3 },
+    { rank: 8, ign: "Zayn", tag: "LNX", tier: "Master", lp: 430, wr: 53, games: 287, role: "Jungle", champs: ["Viego", "Sett", "Akali"], country: "PK", delta: 0 },
+    { rank: 9, ign: "Bikash", tag: "KTM", tier: "Master", lp: 388, wr: 52, games: 210, role: "Top", champs: ["Sett", "Aatrox", "Yone"], country: "NP", delta: -1 },
+    { rank: 10, ign: "Mehran", tag: "LNX", tier: "Diamond I", lp: 76, wr: 54, games: 164, role: "Support", champs: ["Lux", "Ahri", "Jhin"], country: "PK", delta: 4 },
+  ],
+  news: [
+    { title: "LCR 2026 Grand Final set for Sunday night", date: "8 Aug 2026", kind: "Announcement", art: "assets/splash-Jhin_0.jpg" },
+    { title: "Rafay on the Yone pick that broke the Dragons", date: "7 Aug 2026", kind: "Interview", art: "assets/splash-Yone_0.jpg" },
+    { title: "PCLT '26 registration opens for 40 campuses", date: "5 Aug 2026", kind: "Collegiate", art: "assets/splash-Lux_0.jpg" },
+    { title: "Patch 16.15 ban list and ProDraft notes", date: "3 Aug 2026", kind: "Rules", art: "assets/splash-Kaisa_0.jpg" },
+  ],
+  sponsors: ["Geeks n Gamerz", "Resin by Moonlight", "Illustration Studio"],
+  champs: { Aatrox: "assets/splash-Aatrox_0.jpg", Ahri: "assets/splash-Ahri_0.jpg", Yasuo: "assets/splash-Yasuo_0.jpg", Kaisa: "assets/splash-Kaisa_0.jpg", Jinx: "assets/splash-Jinx_0.jpg", Sett: "assets/splash-Sett_0.jpg", Viego: "assets/splash-Viego_0.jpg", Lux: "assets/splash-Lux_0.jpg", Ezreal: "assets/splash-Ezreal_0.jpg", Yone: "assets/splash-Yone_0.jpg", Akali: "assets/splash-Akali_0.jpg", Jhin: "assets/splash-Jhin_0.jpg" },
+};
+
+(function(){
+  const D = window.LCR;
+  const $ = s => document.querySelector(s);
+  const T = tag => D.teams.find(t => t.tag === tag);
+  const I = {
+    play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+    cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>',
+    chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>',
+    left:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>',
+    right:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>',
+    filter:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+    search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+    eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    discord:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 5.3A17 17 0 0 0 15.4 4l-.2.4a15 15 0 0 1 3.7 1.9 13.6 13.6 0 0 0-13.8 0A15 15 0 0 1 8.8 4.4L8.6 4a17 17 0 0 0-4.1 1.3C1.9 9.2 1.2 13 1.5 16.7A17 17 0 0 0 6.6 19.3l1.1-1.7a11 11 0 0 1-1.8-.9l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3-1.8.9 1.1 1.7a17 17 0 0 0 5.1-2.6c.4-4.3-.7-8-2.9-11.4zM8.7 14.4c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>',
+  };
+  function crest(tag, size){
+    size = size || 28;
+    const t = T(tag);
+    if(!t) return `<svg class="crest" width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 36 10v12c0 8-7 13-16 16C11 35 4 30 4 22V10z" fill="#1a1a1a" stroke="#3a3a3a" stroke-width="1.5"/><circle cx="20" cy="20" r="4" fill="#3a3a3a"/></svg>`;
+    return `<svg class="crest" width="${size}" height="${size}" viewBox="0 0 40 40" role="img" aria-label="${t.name}"><path d="M20 2 36 10v12c0 8-7 13-16 16C11 35 4 30 4 22V10z" fill="${t.color}"/><path d="M20 2 36 10v12c0 8-7 13-16 16z" fill="rgba(0,0,0,.18)"/><text x="20" y="25" text-anchor="middle" font-family="Barlow Condensed,Arial Narrow,Arial" font-weight="800" font-size="13" fill="#0b0b0b" letter-spacing=".5">${tag}</text></svg>`;
+  }
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const statusPill = s => s==='live' ? '<span class="pill pill-live"><i></i>Live</span>' : s==='done' ? '<span class="pill pill-done">Final</span>' : s==='upcoming' ? '<span class="pill pill-up">Upcoming</span>' : '';
+
+  /* nav */
+  const screens = {Home:'home',Schedule:'schedule',Events:'event',Teams:'team',Leaderboard:'leaderboard'};
+  $('#nav').innerHTML = D.nav.map(n => screens[n] ? `<button type="button" data-go="${screens[n]}">${n}</button>` : `<button type="button" class="inert" title="Not in this mockup">${n}</button>`).join('');
+
+  /* match row */
+  function matchRow(m, ev){
+    const live = m.status==='live', done = m.status==='done';
+    const a = T(m.a), b = T(m.b);
+    const aw = done && m.sa > m.sb, bw = done && m.sb > m.sa;
+    const name = (t, tag) => `<span class="name"><span class="tag">${tag}</span><span class="full">${t ? t.name : 'To be decided'}</span></span>`;
+    const center = live ? `<span class="vs num">${m.sa}<span style="color:var(--muted);margin:0 4px">–</span>${m.sb}<span class="liveclock">Game ${m.game} · ${m.clock}</span></span>`
+      : done ? `<span class="vs num">${m.sa}<span style="color:var(--muted);margin:0 4px">–</span>${m.sb}</span>`
+      : `<span class="vs sm">VS</span>`;
+    const btn = live ? `<button class="btn btn-live btn-sm" type="button">${I.play}Watch</button>` : done ? `<button class="btn btn-outline btn-sm" type="button">VODs</button>` : `<button class="btn btn-ghost btn-sm" type="button">${I.cal}Remind</button>`;
+    return `<article class="match ${m.status}">
+      <div class="time num"><span>${m.time}</span>${live?'<span class="pill pill-live"><i></i>Live</span>':''}</div>
+      <div class="mid">
+        <div class="teams">
+          <div class="t r ${bw?'lost':''}">${name(a,m.a)}${crest(m.a,34)}</div>
+          ${center}
+          <div class="t ${aw?'lost':''}">${crest(m.b,34)}${name(b,m.b)}</div>
+        </div>
+        <div class="foot"><span><b>${ev||'LCR 2026'}</b> · ${m.stage}</span><span>Bo${m.bo}</span></div>
+      </div>
+      <div class="act">${btn}</div>
+    </article>`;
+  }
+
+  /* ---------- HOME ---------- */
+  function home(){
+    const liveM = D.schedule[0].matches[0];
+    const a = T(liveM.a), b = T(liveM.b);
+    const ev = D.events[0];
+    const top = [...D.teams].sort((x,y)=> y.w - x.w || x.l - y.l).slice(0,6);
+    return `
+    <div class="wrap">
+      <div class="hero">
+        <div class="art" style="background-image:url('${ev.splash}')"></div><div class="scrim"></div>
+        <div class="in">
+          <div class="eyebrow"><img src="${ev.logo}" alt="${ev.name}"><span class="kicker">${ev.name} · ${liveM.stage}</span><span class="pill pill-live"><i></i>Live · Game ${liveM.game}</span></div>
+          <div class="versus">
+            <div class="side">${crest(a.tag,64)}<div><span class="tag">${a.tag}</span><small>${a.name}</small></div></div>
+            <div class="score num">${liveM.sa}<span>–</span>${liveM.sb}</div>
+            <div class="side">${crest(b.tag,64)}<div><span class="tag">${b.tag}</span><small>${b.name}</small></div></div>
+          </div>
+          <h1>${a.name} vs ${b.name}</h1>
+          <div class="meta"><span class="clock num">${liveM.clock}</span><span>·</span><span>Best of ${liveM.bo}</span><span>·</span><span>Winner goes to Sunday's Grand Final</span></div>
+          <div class="cta"><button class="btn btn-live" type="button">${I.play}Watch on Twitch</button><button class="btn btn-ghost" type="button">Match details</button></div>
+        </div>
+      </div>
+
+      <div class="row-gap" style="margin-top:28px">
+        <div>
+          <div class="sec-head"><h2>Today</h2><button class="link" type="button" data-go="schedule">Full schedule</button></div>
+          <div class="today-strip">${D.schedule[0].matches.map(m=>{
+            const ta=T(m.a), tb=T(m.b);
+            const sc = m.status==='live' ? `<span class="sc num">${m.sa}–${m.sb}</span>` : `<span class="sc" style="color:var(--muted);font-size:16px">VS</span>`;
+            return `<a class="mini" href="#schedule" data-go="schedule"><div class="l1"><span>${m.time} PKT</span>${statusPill(m.status)}</div><div class="l2"><span class="t r"><span class="tag">${m.a}</span>${crest(m.a,30)}</span>${sc}<span class="t">${crest(m.b,30)}<span class="tag">${m.b}</span></span></div><div class="l3">${m.stage} · Bo${m.bo}</div></a>`;}).join('')}</div>
+        </div>
+
+        <div class="two">
+          <div>
+            <div class="sec-head"><h2>Playoff standings</h2><button class="link" type="button" data-go="event">Full table</button></div>
+            <div class="panel" style="overflow-x:auto"><table class="table">
+              <thead><tr><th>#</th><th>Team</th><th class="c">W</th><th class="c">L</th><th>Form</th></tr></thead>
+              <tbody>${top.map((t,i)=>`<tr class="q"><td><span class="rank num">${i+1}</span></td><td><span class="team">${crest(t.tag,28)}<span><span class="tag">${t.tag}</span> <span class="full">${t.name}</span></span></span></td><td class="c num">${t.w}</td><td class="c num">${t.l}</td><td><span class="form">${[...t.form].map(c=>`<i class="${c.toLowerCase()}">${c}</i>`).join('')}</span></td></tr>`).join('')}</tbody>
+            </table></div>
+          </div>
+          <div>
+            <div class="sec-head"><h2>Events</h2><button class="link" type="button" data-go="event">All events</button></div>
+            <div class="events">${D.events.map(e=>`<a class="ev" href="#event" data-go="event"><span class="logo"><img src="${e.logo}" alt=""></span><span><b>${e.name}</b><span>${e.dates} · ${e.teams} teams</span></span>${e.status==='live'?'<span class="pill pill-live"><i></i>Live':e.status==='done'?'<span class="pill pill-done">Done':'<span class="pill pill-accent">'+esc(e.stage)}</span></a>`).join('')}</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-head"><h2>News &amp; community</h2><a href="#" title="Not in this mockup">Community hub</a></div>
+          <div class="news">${D.news.map(n=>`<a class="card" href="#"><div class="img" style="background-image:url('${n.art}')"><span class="pill">${n.kind}</span></div><div class="body"><h4>${n.title}</h4><time>${n.date}</time></div></a>`).join('')}</div>
+        </div>
+
+        <div>
+          <div class="sec-head"><h2>Partners</h2></div>
+          <div class="sponsors">${D.sponsors.map(s=>`<div class="sponsor">${s}</div>`).join('')}<a class="sponsor discord" href="${D.org.discord}" target="_blank" rel="noopener">${I.discord}Join Discord</a></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /* ---------- SCHEDULE ---------- */
+  function schedule(){
+    const pr = [...D.teams].sort((x,y)=> y.w - x.w).slice(0,5);
+    return `<div class="wrap" style="padding-left:0;padding-right:0"><div class="hub">
+      <aside class="rail">
+        <div class="kicker">Season 2026</div>
+        ${D.events.map((e,i)=>`<div class="item ${i===0?'active':''}" tabindex="0"><small>${e.region}</small><b>${e.name}</b><span>${e.dates}</span></div>`).join('')}
+      </aside>
+      <div class="center">
+        <div class="ctl">
+          <h2>Schedule</h2>
+          <div class="ctlbtns">
+            <span class="seg"><button type="button" aria-label="Previous day">${I.left}</button><button type="button">Today</button><button type="button" aria-label="Next day">${I.right}</button></span>
+            <span class="seg"><button type="button">${I.filter} All events ${I.chev}</button></span>
+            <span class="seg"><button type="button" aria-pressed="true">${I.eye} Spoilers hidden</button></span>
+          </div>
+        </div>
+        ${D.schedule.map(d=>`<div class="day"><h3>${d.day}${d.date?`<small>${d.date}</small>`:''}</h3>${d.matches.map(m=>matchRow(m)).join('')}</div>`).join('')}
+      </div>
+      <aside class="rightrail">
+        <div class="rr"><h3>Power rankings</h3><div class="pr">${pr.map((t,i)=>`<div class="p"><span class="n num">${i+1}</span>${crest(t.tag,26)}<span class="tag">${t.tag}</span><span class="rec num">${t.w}–${t.l}</span></div>`).join('')}</div><a href="#leaderboard" data-go="leaderboard" style="display:block;margin-top:10px;color:var(--accent);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display);font-weight:600">Player ladder ›</a></div>
+        <div class="rr"><h3>News</h3><div class="newsl">${D.news.slice(0,3).map(n=>`<a class="n" href="#"><span class="th" style="background-image:url('${n.art}')"></span><span><b>${n.title}</b><span>${n.date}</span></span></a>`).join('')}</div></div>
+        <div class="rr"><a class="sponsor discord" href="${D.org.discord}" target="_blank" rel="noopener" style="height:64px;font-size:15px">${I.discord}Join the Discord</a></div>
+      </aside>
+    </div></div>`;
+  }
+
+  /* ---------- EVENT ---------- */
+  function mbox(m, opts){
+    const [a,sa,b,sb] = m; const live = opts && opts.live;
+    const aw = !live && sa>sb, bw = !live && sb>sa;
+    const row = (tag,sc,w) => `<div class="tr ${w?'w':''} ${tag==='TBD'?'tbd':''} ${live?'live-row':''}">${crest(tag,24)}<span class="tag">${tag==='TBD'?'TBD':tag}</span><span class="sc num">${tag==='TBD'?'–':sc}</span></div>`;
+    return `<div class="mbox">${live?'<span class="lbl">Live</span>':''}${row(a,sa,aw)}${row(b,sb,bw)}</div>`;
+  }
+  function round(r, i, total){
+    const done = r.matches.every(m => m[1]!==m[3] && m[0]!=='TBD');
+    const dots = r.matches.map(m => `<i class="${m[0]==='TBD'?'':(m[1]!==m[3]?'on':'red')}"></i>`).join('');
+    return `<div class="round"><h4>${r.round}<span class="dots">${dots}</span></h4><div class="ms">${r.matches.map(m=>mbox(m,{live:m[0]!=='TBD' && m[1]===m[3] && m[1]>0})).join('')}</div></div>`;
+  }
+  function event(){
+    const ev = D.events[0];
+    const sorted = [...D.teams].sort((x,y)=> y.w - x.w || x.l - y.l);
+    const upcoming = D.schedule[0].matches;
+    return `
+    <div class="evhero"><div class="art" style="background-image:url('${ev.splash}')"></div><div class="scrim"></div>
+      <div class="wrap in">
+        <div class="logo"><img src="${ev.logo}" alt=""></div>
+        <div style="min-width:0;flex:1">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><span class="pill pill-live"><i></i>In progress</span><span class="kicker">${ev.region} · Season 2026</span></div>
+          <h1>${ev.full.split(' — ')[0]}</h1>
+          <div class="meta"><span><b>Dates</b>${ev.dates}</span><span><b>Teams</b>${ev.teams}</span><span><b>Prize</b>${ev.prize}</span><span><b>Format</b>${ev.format}</span></div>
+        </div>
+        <div style="display:flex;gap:8px"><button class="btn btn-primary" type="button">${I.trophy}Register team</button><button class="btn btn-ghost" type="button">Rules PDF</button></div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="tabs" role="tablist">
+        ${['Overview','Groups','Playoffs','Teams','Rules'].map(t=>`<button type="button" role="tab" data-tab="${t.toLowerCase()}" aria-selected="${t==='Playoffs'}"><small>${t==='Overview'?'Season, event & teams':t==='Groups'?'Stage 1 · Round robin':t==='Playoffs'?'Stage 2 · Double elim':t==='Teams'?'12 teams':'Handbook'}</small><b>${t}</b></button>`).join('')}
+      </div>
+
+      <div class="tabpanel" data-panel="overview" hidden>
+        <div class="info">${[['Stage','Playoffs'],['Dates',ev.dates],['Prize pool',ev.prize],['Server','SEA / Singapore']].map(k=>`<div class="k"><small>${k[0]}</small><b>${k[1]}</b></div>`).join('')}</div>
+        <div class="sec-head"><h2>Next up</h2></div>
+        ${upcoming.map(m=>matchRow(m)).join('')}
+      </div>
+
+      <div class="tabpanel" data-panel="groups" hidden>
+        <div class="panel" style="overflow-x:auto"><table class="table">
+          <thead><tr><th>#</th><th>Team</th><th class="c">W</th><th class="c">L</th><th class="c">Win %</th><th>Form</th><th class="r">Status</th></tr></thead>
+          <tbody>${sorted.map((t,i)=>`<tr class="${i<8?'q':'e'}"><td><span class="rank num">${i+1}</span></td><td><span class="team">${crest(t.tag,28)}<span><span class="tag">${t.tag}</span> <span class="full">${t.name}${t.invite?' · Invited':''}</span></span></span></td><td class="c num">${t.w}</td><td class="c num">${t.l}</td><td class="c num">${Math.round(t.w/(t.w+t.l)*100)}%</td><td><span class="form">${[...t.form].map(c=>`<i class="${c.toLowerCase()}">${c}</i>`).join('')}</span></td><td class="r">${i<8?'<span class="pill pill-accent">Playoffs</span>':'<span class="pill pill-done">Eliminated</span>'}</td></tr>`).join('')}</tbody>
+        </table><div class="legend"><span><i style="background:var(--accent)"></i>Top 8 advance to playoffs</span><span><i style="background:#5a2a2a"></i>Eliminated</span></div></div>
+      </div>
+
+      <div class="tabpanel" data-panel="playoffs">
+        <div class="bgroup"><h3>Upper bracket</h3><div class="bracket-wrap"><div class="bracket">${D.bracket.upper.map(round).join('')}<div class="round"><h4>Grand Final · Bo5</h4><div class="ms">${mbox(D.bracket.final)}</div></div></div></div></div>
+        <div class="bgroup"><h3>Lower bracket</h3><div class="bracket-wrap"><div class="bracket">${D.bracket.lower.map(round).join('')}</div></div></div>
+      </div>
+
+      <div class="tabpanel" data-panel="teams" hidden>
+        <div class="grid-teams">${sorted.map(t=>`<a class="tcard" href="#team" data-go="team">${crest(t.tag,48)}<span><b>${t.name}</b><span>${t.city} · ${t.country} · Seed ${t.seed}${t.invite?' · Invited':''}</span></span></a>`).join('')}</div>
+      </div>
+
+      <div class="tabpanel" data-panel="rules" hidden>
+        <div class="rules">
+          <div class="rule"><h4>Tournament format</h4><p>Group stage 24–26 July in round robin. Quarterfinals and semifinals as double elimination best of 3. Grand Final on 9 August as a best of 5.</p></div>
+          <div class="rule"><h4>Team requirements</h4><p>Five starting players, up to four substitutes with at least one mandatory, one coach recommended and up to one manager. Only registered members may play official matches.</p></div>
+          <div class="rule"><h4>Schedule</h4><p>Matches run Friday to Sunday in the official window of 20:00 to 02:00 PKT. Rosters must be posted in #captains two hours before 20:00.</p></div>
+          <div class="rule"><h4>Pause time rules</h4><p>Nine minutes of total pause per game across at most three pauses. Over nine minutes is a 0.2 point group-stage penalty; over twelve is a match loss.</p></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /* ---------- TEAM ---------- */
+  function team(){
+    const t = T(D.roster.team);
+    const liveM = D.schedule[0].matches[0];
+    return `<div class="wrap">
+      <div class="thead">
+        <span class="big">${crest(t.tag,96)}</span>
+        <div><div class="kicker">${t.city} · Pakistan · LCR 2026 seed ${t.seed}</div><h1>${t.name}</h1><div class="sub"><span class="tag" style="font-size:16px;color:var(--muted)">${t.tag}</span><span>Coach ${D.roster.coach}</span><span>Upper bracket finalist</span></div></div>
+        <div class="rec"><div class="stat"><small>Record</small><b class="num">${t.w}–${t.l}</b></div><div class="stat"><small>Win rate</small><b class="num">${Math.round(t.w/(t.w+t.l)*100)}%</b></div><div class="stat"><small>Form</small><b><span class="form">${[...t.form].map(c=>`<i class="${c.toLowerCase()}">${c}</i>`).join('')}</span></b></div></div>
+      </div>
+      <div class="row-gap" style="margin-top:24px">
+        <div>
+          <div class="sec-head"><h2>Roster</h2><span class="kicker">5 starters · 1 substitute</span></div>
+          <div class="roster">${D.roster.players.map(p=>`<article class="pcard" style="background-image:url('${p.art}')"><span class="pill role">${p.role}</span>${p.captain?'<span class="pill pill-accent cap">Captain</span>':''}<div class="in"><span class="ign">${p.ign}</span><span class="real">${p.name} · ${p.country}</span><div class="sig"><span>Signature <b>${p.champ}</b></span><span>KDA <b class="num">${p.kda}</b></span></div></div></article>`).join('')}</div>
+        </div>
+        <div class="two">
+          <div><div class="sec-head"><h2>Recent results</h2></div><div class="results">${D.roster.results.map(r=>`<div class="res"><span class="wl ${r[0]}">${r[0]}</span><span class="sc num">${r[1]}</span><span style="display:flex;gap:8px;align-items:center">vs ${crest(r[2],22)}<span class="tag">${r[2]}</span><span class="st">· ${T(r[2]).name}</span></span><span class="st">${r[3]}</span></div>`).join('')}</div></div>
+          <div><div class="sec-head"><h2>Up next</h2></div>${matchRow(liveM)}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /* ---------- LEADERBOARD ---------- */
+  const tierColor = t => t.startsWith('Chall')?'var(--t-chal)':t.startsWith('Grand')?'var(--t-gm)':t.startsWith('Master')?'var(--t-master)':'var(--t-dia)';
+  function leaderboard(){
+    return `<div class="wrap">
+      <div class="lbhead"><div><div class="kicker">Solo queue ladder · verified accounts</div><h1>Leaderboard</h1></div><span class="kicker">Updated 12 min ago · SEA server</span></div>
+      <div class="filters">
+        <button class="chip" type="button" aria-pressed="true">South Asia</button><button class="chip" type="button" aria-pressed="false">Pakistan</button>
+        <span style="width:1px;height:22px;background:var(--line-2);margin:0 4px"></span>
+        ${['All roles','Top','Jungle','Mid','Bot','Support'].map((r,i)=>`<button class="chip" type="button" aria-pressed="${i===0}">${r}</button>`).join('')}
+        <label class="search">${I.search}<input id="lb-search" type="search" placeholder="Search player or team" aria-label="Search player or team"></label>
+      </div>
+      <div class="panel lbwrap"><table class="table">
+        <thead><tr><th>#</th><th>Player</th><th>Role</th><th>Tier</th><th class="r">LP</th><th>Win rate</th><th class="r">Games</th><th>Top champions</th><th class="r">24h</th></tr></thead>
+        <tbody>${D.leaderboard.map(p=>`<tr>
+          <td>${p.rank<=3?`<span class="medal m${p.rank} num">${p.rank}</span>`:`<span class="rank num">${p.rank}</span>`}</td>
+          <td><span class="team">${crest(p.tag,26)}<span class="ign">${p.ign}<small>${p.tag} · ${p.country}</small></span></span></td>
+          <td>${p.role}</td>
+          <td><span class="tier"><i style="background:${tierColor(p.tier)}"></i>${p.tier}</span></td>
+          <td class="r num"><b>${p.lp.toLocaleString()}</b></td>
+          <td><span class="wr"><span class="num">${p.wr}%</span><span class="bar"><i style="width:${p.wr}%"></i></span></span></td>
+          <td class="r num">${p.games}</td>
+          <td><span class="champs">${p.champs.map(c=>`<i title="${c}" style="background-image:url('${D.champs[c]}')"></i>`).join('')}</span></td>
+          <td class="r"><span class="delta num ${p.delta>0?'up':p.delta<0?'down':'flat'}">${p.delta>0?'▲ '+p.delta:p.delta<0?'▼ '+Math.abs(p.delta):'—'}</span></td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+  }
+
+  /* render all */
+  $('#home').innerHTML = home();
+  $('#schedule').innerHTML = schedule();
+  $('#event').innerHTML = event();
+  $('#team').innerHTML = team();
+  $('#leaderboard').innerHTML = leaderboard();
+
+  /* tabs */
+  document.querySelectorAll('.tabs [role=tab]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.tabs [role=tab]').forEach(x => x.setAttribute('aria-selected', x===b));
+    document.querySelectorAll('.tabpanel').forEach(p => p.hidden = p.dataset.panel !== b.dataset.tab);
+  }));
+
+  /* router */
+  const ids = ['home','schedule','event','team','leaderboard'];
+  function show(id, push){
+    if(!ids.includes(id)) id = 'home';
+    ids.forEach(x => document.getElementById(x).hidden = x !== id);
+    document.querySelectorAll('#nav [data-go]').forEach(b => b.dataset.go===id ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current'));
+    if(push && location.hash !== '#'+id){ try{ history.replaceState(null,'','#'+id); }catch(e){} }
+    window.scrollTo({top:0});
+  }
+  document.addEventListener('click', e => {
+    const go = e.target.closest('[data-go]');
+    if(go){ e.preventDefault(); show(go.dataset.go, true); }
+  });
+  window.addEventListener('hashchange', () => show(location.hash.slice(1), false));
+  show((location.hash||'#home').slice(1), false);
+})();
+</script>
+
+</body>
+</html>

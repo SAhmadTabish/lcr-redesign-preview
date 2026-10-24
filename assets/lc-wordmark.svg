@@ -1,0 +1,27 @@
+<svg width="520" height="138" viewBox="0 0 520 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lcMetal" x1="80" y1="16" x2="252" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2F2F2"/>
+      <stop offset="48%" stop-color="#B9BDC4"/>
+      <stop offset="100%" stop-color="#8A9098"/>
+    </linearGradient>
+    <linearGradient id="lcText" x1="42" y1="90" x2="468" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#DDE1E7"/>
+      <stop offset="100%" stop-color="#8E949D"/>
+    </linearGradient>
+  </defs>
+
+  <g>
+    <path d="M160 18L132 66H152L178 18H160Z" fill="url(#lcMetal)"/>
+    <path d="M108 18L86 56V18H70V82H96L132 18H108Z" fill="url(#lcMetal)"/>
+    <path d="M176 34H312L296 62H192L176 90H296L312 62H248L264 34H176Z" fill="url(#lcMetal)"/>
+    <rect x="66" y="14" width="252" height="80" rx="8" stroke="#5E6672" stroke-opacity=".45"/>
+  </g>
+
+  <text x="260" y="112" text-anchor="middle" fill="url(#lcText)" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="32" letter-spacing="1.8">
+    LEAGUECHAMPIONSHIP.ORG
+  </text>
+  <text x="260" y="132" text-anchor="middle" fill="#9098A3" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="15" letter-spacing="7">
+    ESPORTS EVENTS
+  </text>
+</svg>
